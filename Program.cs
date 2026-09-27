@@ -1,38 +1,49 @@
-﻿Console.WriteLine("=== Industrial Maintenance Calculator ===");
+﻿Console.WriteLine("=== INDUSTRIAL MAINTENANCE CALCULATOR ===");
+Console.WriteLine();
 
-Console.Write("Heures d'arrêt par incident : ");
+double heuresArret = LireNombrePositif(
+    "Heures d'arrêt par incident : "
+);
 
-if (double.TryParse(Console.ReadLine(), out double heuresArret))
+double coutParHeure = LireNombrePositif(
+    "Coût par heure (€) : "
+);
+
+double incidentsParMois = LireNombrePositif(
+    "Nombre d'incidents par mois : "
+);
+
+// Calculs
+double coutParIncident = heuresArret * coutParHeure;
+double coutMensuel = coutParIncident * incidentsParMois;
+double coutAnnuel = coutMensuel * 12;
+
+// Résultats
+Console.WriteLine();
+Console.WriteLine("=== RÉSULTATS ===");
+Console.WriteLine();
+
+Console.WriteLine($"Coût par incident : {coutParIncident:N2} €");
+Console.WriteLine($"Coût mensuel estimé : {coutMensuel:N2} €");
+Console.WriteLine($"Coût annuel estimé : {coutAnnuel:N2} €");
+
+
+// Fonction de validation
+static double LireNombrePositif(string message)
 {
-    Console.Write("Coût par heure (€) : ");
-
-    if (double.TryParse(Console.ReadLine(), out double coutParHeure))
+    while (true)
     {
-        Console.Write("Nombre d'incidents par mois : ");
+        Console.Write(message);
 
-        if (int.TryParse(Console.ReadLine(), out int incidentsParMois))
+        if (double.TryParse(Console.ReadLine(), out double valeur))
         {
-            double coutParIncident = heuresArret * coutParHeure;
-            double coutMensuel = coutParIncident * incidentsParMois;
-            double coutAnnuel = coutMensuel * 12;
+            if (valeur > 0)
+            {
+                return valeur;
+            }
+        }
 
-            Console.WriteLine();
-            Console.WriteLine("=== Résultats ===");
-            Console.WriteLine($"Coût par incident : {coutParIncident} €");
-            Console.WriteLine($"Coût mensuel estimé : {coutMensuel} €");
-            Console.WriteLine($"Coût annuel estimé : {coutAnnuel} €");
-        }
-        else
-        {
-            Console.WriteLine("Erreur : nombre d'incidents invalide.");
-        }
+        Console.WriteLine("Erreur : entre un nombre supérieur à 0.");
+        Console.WriteLine();
     }
-    else
-    {
-        Console.WriteLine("Erreur : coût par heure invalide.");
-    }
-}
-else
-{
-    Console.WriteLine("Erreur : nombre d'heures invalide.");
 }
