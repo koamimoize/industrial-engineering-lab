@@ -1,155 +1,326 @@
-﻿Console.WriteLine("========================================");
-Console.WriteLine("   INDUSTRIAL MAINTENANCE CALCULATOR");
-Console.WriteLine("========================================");
-Console.WriteLine();
+﻿using Microsoft.Data.Sqlite;
 
-Console.WriteLine("INPUTS");
-Console.WriteLine("----------------------------------------");
+string connectionString = "Data Source=industrial-downtime.db";
 
-double heuresArret = LireNombrePositif(
-    "Downtime per incident (h) : "
-);
+InitializeDatabase();
 
-double coutParHeure = LireNombrePositif(
-    "Cost per downtime hour (€) : "
-);
-
-double incidentsParMois = LireNombrePositif(
-    "Incidents per month : "
-);
-
-double heuresFonctionnementPrevues = LireNombrePositif(
-    "Scheduled operating hours/year : "
-);
-
-double reductionArret = LirePourcentage(
-    "Improvement scenario (%) : "
-);
-
-
-// ========================================
-// CURRENT SCENARIO
-// ========================================
-
-double coutParIncident =
-    heuresArret * coutParHeure;
-
-double coutMensuel =
-    coutParIncident * incidentsParMois;
-
-double coutAnnuel =
-    coutMensuel * 12;
-
-double heuresArretAnnuel =
-    heuresArret * incidentsParMois * 12;
-
-
-// Validation industrielle
-if (heuresArretAnnuel >= heuresFonctionnementPrevues)
+while (true)
 {
     Console.WriteLine();
-    Console.WriteLine("ERROR");
-    Console.WriteLine("----------------------------------------");
-    Console.WriteLine(
-        "Annual downtime cannot be greater than"
-    );
-    Console.WriteLine(
-        "or equal to scheduled operating hours."
-    );
+    Console.WriteLine("========================================");
+    Console.WriteLine("      MACHINE DOWNTIME TRACKER");
+    Console.WriteLine("========================================");
 
-    return;
+    Console.WriteLine();
+    Console.WriteLine("1. Add incident");
+    Console.WriteLine("2. View incidents");
+    Console.WriteLine("3. Machine analysis");
+    Console.WriteLine("4. Exit");
+
+    Console.WriteLine();
+
+    Console.Write("Choose an option : ");
+
+    string choice = Console.ReadLine() ?? "";
+
+    Console.WriteLine();
+
+    if (choice == "1")
+    {
+        AddIncident();
+    }
+    else if (choice == "2")
+    {
+        ViewIncidents();
+    }
+    else if (choice == "3")
+    {
+        AnalyzeMachines();
+    }
+    else if (choice == "4")
+    {
+        Console.WriteLine("Goodbye.");
+        break;
+    }
+    else
+    {
+        Console.WriteLine("Invalid option.");
+    }
 }
 
 
-double heuresFonctionnementReelles =
-    heuresFonctionnementPrevues -
-    heuresArretAnnuel;
+static void InitializeDatabase()
+{
+    using var connection =
+        new SqliteConnection(
+            "Data Source=industrial-downtime.db"
+        );
 
-double disponibilite =
-    (heuresFonctionnementReelles /
-    heuresFonctionnementPrevues) * 100;
+    connection.Open();
 
+    string sql = """
+        CREATE TABLE IF NOT EXISTS Incidents
+        (
+            Id INTEGER PRIMARY KEY AUTOINCREMENT,
+            MachineName TEXT NOT NULL,
+            DowntimeHours REAL NOT NULL,
+            CostPerHour REAL NOT NULL,
+            Description TEXT NOT NULL
+        );
+        """;
 
-// ========================================
-// IMPROVED SCENARIO
-// ========================================
+    using var command =
+        new SqliteCommand(sql, connection);
 
-double heuresArretAmeliorees =
-    heuresArret *
-    (1 - reductionArret / 100);
-
-double coutAnnuelAmeliore =
-    heuresArretAmeliorees *
-    coutParHeure *
-    incidentsParMois *
-    12;
-
-double heuresArretAnnuelAmeliorees =
-    heuresArretAmeliorees *
-    incidentsParMois *
-    12;
-
-double heuresFonctionnementAmeliorees =
-    heuresFonctionnementPrevues -
-    heuresArretAnnuelAmeliorees;
-
-double disponibiliteAmelioree =
-    (heuresFonctionnementAmeliorees /
-    heuresFonctionnementPrevues) * 100;
-
-double economieAnnuelle =
-    coutAnnuel -
-    coutAnnuelAmeliore;
+    command.ExecuteNonQuery();
+}
 
 
-// ========================================
-// RESULTS
-// ========================================
+static void AddIncident()
+{
+    Console.WriteLine("ADD INCIDENT");
+    Console.WriteLine("----------------------------------------");
 
-Console.WriteLine();
-Console.WriteLine("RESULTS");
-Console.WriteLine("----------------------------------------");
+    Console.Write("Machine name : ");
+    string machineName = Console.ReadLine() ?? "Unknown";
 
-Console.WriteLine();
-Console.WriteLine("CURRENT SCENARIO");
-Console.WriteLine(
-    $"Annual downtime       : {heuresArretAnnuel:N2} h"
-);
-Console.WriteLine(
-    $"Annual downtime cost  : {coutAnnuel:N2} €"
-);
-Console.WriteLine(
-    $"Availability          : {disponibilite:N2} %"
-);
+    double downtimeHours =
+        ReadPositiveNumber("Downtime (hours) : ");
 
-Console.WriteLine();
-Console.WriteLine("IMPROVED SCENARIO");
-Console.WriteLine(
-    $"Downtime reduction    : {reductionArret:N2} %"
-);
-Console.WriteLine(
-    $"Annual downtime       : {heuresArretAnnuelAmeliorees:N2} h"
-);
-Console.WriteLine(
-    $"Annual downtime cost  : {coutAnnuelAmeliore:N2} €"
-);
-Console.WriteLine(
-    $"Availability          : {disponibiliteAmelioree:N2} %"
-);
+    double costPerHour =
+        ReadPositiveNumber(
+            "Cost per downtime hour (€) : "
+        );
 
-Console.WriteLine();
-Console.WriteLine("----------------------------------------");
-Console.WriteLine(
-    $"POTENTIAL ANNUAL SAVINGS : {economieAnnuelle:N2} €"
-);
-Console.WriteLine("========================================");
+    Console.Write("Failure description : ");
+    string description =
+        Console.ReadLine() ?? "Unknown";
+
+    using var connection =
+        new SqliteConnection(
+            "Data Source=industrial-downtime.db"
+        );
+
+    connection.Open();
+
+    string sql = """
+        INSERT INTO Incidents
+        (
+            MachineName,
+            DowntimeHours,
+            CostPerHour,
+            Description
+        )
+        VALUES
+        (
+            $machineName,
+            $downtimeHours,
+            $costPerHour,
+            $description
+        );
+        """;
+
+    using var command =
+        new SqliteCommand(sql, connection);
+
+    command.Parameters.AddWithValue(
+        "$machineName",
+        machineName
+    );
+
+    command.Parameters.AddWithValue(
+        "$downtimeHours",
+        downtimeHours
+    );
+
+    command.Parameters.AddWithValue(
+        "$costPerHour",
+        costPerHour
+    );
+
+    command.Parameters.AddWithValue(
+        "$description",
+        description
+    );
+
+    command.ExecuteNonQuery();
+
+    Console.WriteLine();
+    Console.WriteLine(
+        "Incident saved to SQLite."
+    );
+}
 
 
-// ========================================
-// INPUT FUNCTIONS
-// ========================================
+static void ViewIncidents()
+{
+    using var connection =
+        new SqliteConnection(
+            "Data Source=industrial-downtime.db"
+        );
 
-static double LireNombrePositif(string message)
+    connection.Open();
+
+    string sql = """
+        SELECT
+            Id,
+            MachineName,
+            DowntimeHours,
+            CostPerHour,
+            Description
+        FROM Incidents
+        ORDER BY Id;
+        """;
+
+    using var command =
+        new SqliteCommand(sql, connection);
+
+    using var reader =
+        command.ExecuteReader();
+
+    Console.WriteLine("INCIDENT HISTORY");
+    Console.WriteLine("----------------------------------------");
+
+    bool hasIncidents = false;
+
+    while (reader.Read())
+    {
+        hasIncidents = true;
+
+        int id = reader.GetInt32(0);
+
+        string machineName =
+            reader.GetString(1);
+
+        double downtimeHours =
+            reader.GetDouble(2);
+
+        double costPerHour =
+            reader.GetDouble(3);
+
+        string description =
+            reader.GetString(4);
+
+        double cost =
+            downtimeHours * costPerHour;
+
+        Console.WriteLine();
+
+        Console.WriteLine(
+            $"Incident #{id}"
+        );
+
+        Console.WriteLine(
+            $"Machine        : {machineName}"
+        );
+
+        Console.WriteLine(
+            $"Downtime       : {downtimeHours:N2} h"
+        );
+
+        Console.WriteLine(
+            $"Cost per hour  : {costPerHour:N2} €"
+        );
+
+        Console.WriteLine(
+            $"Estimated cost : {cost:N2} €"
+        );
+
+        Console.WriteLine(
+            $"Description    : {description}"
+        );
+
+        Console.WriteLine(
+            "----------------------------------------"
+        );
+    }
+
+    if (!hasIncidents)
+    {
+        Console.WriteLine(
+            "No incidents recorded."
+        );
+    }
+}
+
+
+static void AnalyzeMachines()
+{
+    using var connection =
+        new SqliteConnection(
+            "Data Source=industrial-downtime.db"
+        );
+
+    connection.Open();
+
+    string sql = """
+        SELECT
+            MachineName,
+            COUNT(*) AS IncidentCount,
+            SUM(DowntimeHours) AS TotalDowntime,
+            SUM(DowntimeHours * CostPerHour) AS TotalCost
+        FROM Incidents
+        GROUP BY MachineName
+        ORDER BY TotalDowntime DESC;
+        """;
+
+    using var command =
+        new SqliteCommand(sql, connection);
+
+    using var reader =
+        command.ExecuteReader();
+
+    Console.WriteLine("MACHINE ANALYSIS");
+    Console.WriteLine(
+        "----------------------------------------"
+    );
+
+    bool hasMachines = false;
+
+    while (reader.Read())
+    {
+        hasMachines = true;
+
+        string machineName =
+            reader.GetString(0);
+
+        long incidentCount =
+            reader.GetInt64(1);
+
+        double totalDowntime =
+            reader.GetDouble(2);
+
+        double totalCost =
+            reader.GetDouble(3);
+
+        Console.WriteLine();
+
+        Console.WriteLine(machineName);
+
+        Console.WriteLine(
+            $"Incidents       : {incidentCount}"
+        );
+
+        Console.WriteLine(
+            $"Downtime        : {totalDowntime:N2} h"
+        );
+
+        Console.WriteLine(
+            $"Downtime cost   : {totalCost:N2} €"
+        );
+    }
+
+    if (!hasMachines)
+    {
+        Console.WriteLine(
+            "No incidents available for analysis."
+        );
+    }
+}
+
+
+static double ReadPositiveNumber(
+    string message)
 {
     while (true)
     {
@@ -157,41 +328,16 @@ static double LireNombrePositif(string message)
 
         if (double.TryParse(
             Console.ReadLine(),
-            out double valeur))
+            out double value))
         {
-            if (valeur > 0)
+            if (value > 0)
             {
-                return valeur;
+                return value;
             }
         }
 
         Console.WriteLine(
             "Error: enter a number greater than 0."
         );
-        Console.WriteLine();
-    }
-}
-
-
-static double LirePourcentage(string message)
-{
-    while (true)
-    {
-        Console.Write(message);
-
-        if (double.TryParse(
-            Console.ReadLine(),
-            out double valeur))
-        {
-            if (valeur >= 0 && valeur <= 100)
-            {
-                return valeur;
-            }
-        }
-
-        Console.WriteLine(
-            "Error: enter a percentage between 0 and 100."
-        );
-        Console.WriteLine();
     }
 }
