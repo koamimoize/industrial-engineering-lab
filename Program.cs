@@ -6,48 +6,49 @@ InitializeDatabase();
 
 while (true)
 {
-    Console.WriteLine();
-    Console.WriteLine("========================================");
-    Console.WriteLine("      MACHINE DOWNTIME TRACKER");
-    Console.WriteLine("========================================");
+    Console.Clear();
 
+    Console.WriteLine("=================================");
+    Console.WriteLine("   MACHINE DOWNTIME TRACKER");
+    Console.WriteLine("=================================");
     Console.WriteLine();
     Console.WriteLine("1. Add incident");
     Console.WriteLine("2. View incidents");
     Console.WriteLine("3. Machine analysis");
     Console.WriteLine("4. Exit");
-
     Console.WriteLine();
 
-    Console.Write("Choose an option : ");
+    Console.Write("Choose an option: ");
+    string? choice = Console.ReadLine();
 
-    string choice = Console.ReadLine() ?? "";
+    switch (choice)
+    {
+        case "1":
+            AddIncident();
+            break;
 
-    Console.WriteLine();
+        case "2":
+            ViewIncidents();
+            break;
 
-    if (choice == "1")
-    {
-        AddIncident();
-    }
-    else if (choice == "2")
-    {
-        ViewIncidents();
-    }
-    else if (choice == "3")
-    {
-        AnalyzeMachines();
-    }
-    else if (choice == "4")
-    {
-        Console.WriteLine("Goodbye.");
-        break;
-    }
-    else
-    {
-        Console.WriteLine("Invalid option.");
+        case "3":
+            AnalyzeMachines();
+            break;
+
+        case "4":
+            return;
+
+        default:
+            Console.WriteLine("Invalid option.");
+            Pause();
+            break;
     }
 }
 
+
+// ========================================
+// DATABASE INITIALIZATION
+// ========================================
 
 static void InitializeDatabase()
 {
@@ -58,43 +59,95 @@ static void InitializeDatabase()
 
     connection.Open();
 
-    string sql = """
+    string createTableSql = """
         CREATE TABLE IF NOT EXISTS Incidents
         (
             Id INTEGER PRIMARY KEY AUTOINCREMENT,
             MachineName TEXT NOT NULL,
+            IncidentDate TEXT NOT NULL,
             DowntimeHours REAL NOT NULL,
             CostPerHour REAL NOT NULL,
             Description TEXT NOT NULL
         );
         """;
 
-    using var command =
-        new SqliteCommand(sql, connection);
+    using var createCommand =
+        new SqliteCommand(
+            createTableSql,
+            connection
+        );
 
-    command.ExecuteNonQuery();
+    createCommand.ExecuteNonQuery();
+
+    // Add IncidentDate to an existing V8 database
+    // if the column does not already exist.
+    try
+    {
+        string alterTableSql = """
+            ALTER TABLE Incidents
+            ADD COLUMN IncidentDate TEXT NOT NULL DEFAULT '2026-01-01';
+            """;
+
+        using var alterCommand =
+            new SqliteCommand(
+                alterTableSql,
+                connection
+            );
+
+        alterCommand.ExecuteNonQuery();
+    }
+    catch (SqliteException)
+    {
+        // Column already exists.
+    }
 }
 
 
+// ========================================
+// ADD INCIDENT
+// ========================================
+
 static void AddIncident()
 {
-    Console.WriteLine("ADD INCIDENT");
-    Console.WriteLine("----------------------------------------");
+    Console.Clear();
 
-    Console.Write("Machine name : ");
-    string machineName = Console.ReadLine() ?? "Unknown";
+    Console.WriteLine("=================================");
+    Console.WriteLine("          ADD INCIDENT");
+    Console.WriteLine("=================================");
+    Console.WriteLine();
+
+    Console.Write("Machine name: ");
+    string machineName = Console.ReadLine() ?? "";
+
+    while (string.IsNullOrWhiteSpace(machineName))
+    {
+        Console.Write("Machine name cannot be empty. Try again: ");
+        machineName = Console.ReadLine() ?? "";
+    }
+
+    Console.Write("Incident date (YYYY-MM-DD): ");
+    string incidentDate = Console.ReadLine() ?? "";
+
+    while (!DateTime.TryParse(incidentDate, out _))
+    {
+        Console.Write("Invalid date. Use YYYY-MM-DD: ");
+        incidentDate = Console.ReadLine() ?? "";
+    }
 
     double downtimeHours =
-        ReadPositiveNumber("Downtime (hours) : ");
+        ReadPositiveNumber("Downtime hours: ");
 
     double costPerHour =
-        ReadPositiveNumber(
-            "Cost per downtime hour (€) : "
-        );
+        ReadPositiveNumber("Cost per downtime hour (€): ");
 
-    Console.Write("Failure description : ");
-    string description =
-        Console.ReadLine() ?? "Unknown";
+    Console.Write("Failure description: ");
+    string description = Console.ReadLine() ?? "";
+
+    while (string.IsNullOrWhiteSpace(description))
+    {
+        Console.Write("Description cannot be empty. Try again: ");
+        description = Console.ReadLine() ?? "";
+    }
 
     using var connection =
         new SqliteConnection(
@@ -107,6 +160,7 @@ static void AddIncident()
         INSERT INTO Incidents
         (
             MachineName,
+            IncidentDate,
             DowntimeHours,
             CostPerHour,
             Description
@@ -114,6 +168,7 @@ static void AddIncident()
         VALUES
         (
             $machineName,
+            $incidentDate,
             $downtimeHours,
             $costPerHour,
             $description
@@ -126,6 +181,11 @@ static void AddIncident()
     command.Parameters.AddWithValue(
         "$machineName",
         machineName
+    );
+
+    command.Parameters.AddWithValue(
+        "$incidentDate",
+        incidentDate
     );
 
     command.Parameters.AddWithValue(
@@ -146,14 +206,24 @@ static void AddIncident()
     command.ExecuteNonQuery();
 
     Console.WriteLine();
-    Console.WriteLine(
-        "Incident saved to SQLite."
-    );
+    Console.WriteLine("Incident saved to SQLite.");
+    Pause();
 }
 
 
+// ========================================
+// VIEW INCIDENTS
+// ========================================
+
 static void ViewIncidents()
 {
+    Console.Clear();
+
+    Console.WriteLine("=================================");
+    Console.WriteLine("          ALL INCIDENTS");
+    Console.WriteLine("=================================");
+    Console.WriteLine();
+
     using var connection =
         new SqliteConnection(
             "Data Source=industrial-downtime.db"
@@ -165,11 +235,12 @@ static void ViewIncidents()
         SELECT
             Id,
             MachineName,
+            IncidentDate,
             DowntimeHours,
             CostPerHour,
             Description
         FROM Incidents
-        ORDER BY Id;
+        ORDER BY IncidentDate DESC, Id DESC;
         """;
 
     using var command =
@@ -178,9 +249,6 @@ static void ViewIncidents()
     using var reader =
         command.ExecuteReader();
 
-    Console.WriteLine("INCIDENT HISTORY");
-    Console.WriteLine("----------------------------------------");
-
     bool hasIncidents = false;
 
     while (reader.Read())
@@ -188,64 +256,48 @@ static void ViewIncidents()
         hasIncidents = true;
 
         int id = reader.GetInt32(0);
+        string machineName = reader.GetString(1);
+        string incidentDate = reader.GetString(2);
+        double downtimeHours = reader.GetDouble(3);
+        double costPerHour = reader.GetDouble(4);
+        string description = reader.GetString(5);
 
-        string machineName =
-            reader.GetString(1);
-
-        double downtimeHours =
-            reader.GetDouble(2);
-
-        double costPerHour =
-            reader.GetDouble(3);
-
-        string description =
-            reader.GetString(4);
-
-        double cost =
+        double incidentCost =
             downtimeHours * costPerHour;
 
-        Console.WriteLine();
-
-        Console.WriteLine(
-            $"Incident #{id}"
-        );
-
-        Console.WriteLine(
-            $"Machine        : {machineName}"
-        );
-
-        Console.WriteLine(
-            $"Downtime       : {downtimeHours:N2} h"
-        );
-
-        Console.WriteLine(
-            $"Cost per hour  : {costPerHour:N2} €"
-        );
-
-        Console.WriteLine(
-            $"Estimated cost : {cost:N2} €"
-        );
-
-        Console.WriteLine(
-            $"Description    : {description}"
-        );
-
-        Console.WriteLine(
-            "----------------------------------------"
-        );
+        Console.WriteLine("---------------------------------");
+        Console.WriteLine($"ID: {id}");
+        Console.WriteLine($"Machine: {machineName}");
+        Console.WriteLine($"Date: {incidentDate}");
+        Console.WriteLine($"Downtime: {downtimeHours:F2} h");
+        Console.WriteLine($"Cost/hour: €{costPerHour:F2}");
+        Console.WriteLine($"Incident cost: €{incidentCost:F2}");
+        Console.WriteLine($"Description: {description}");
     }
 
     if (!hasIncidents)
     {
-        Console.WriteLine(
-            "No incidents recorded."
-        );
+        Console.WriteLine("No incidents recorded.");
     }
+
+    Console.WriteLine();
+    Pause();
 }
 
 
+// ========================================
+// MACHINE ANALYSIS
+// ========================================
+
 static void AnalyzeMachines()
 {
+    Console.Clear();
+
+    Console.WriteLine("=================================");
+    Console.WriteLine("        MACHINE ANALYSIS");
+    Console.WriteLine("=================================");
+    Console.WriteLine();
+
     using var connection =
         new SqliteConnection(
             "Data Source=industrial-downtime.db"
@@ -270,11 +322,6 @@ static void AnalyzeMachines()
     using var reader =
         command.ExecuteReader();
 
-    Console.WriteLine("MACHINE ANALYSIS");
-    Console.WriteLine(
-        "----------------------------------------"
-    );
-
     bool hasMachines = false;
 
     while (reader.Read())
@@ -284,8 +331,8 @@ static void AnalyzeMachines()
         string machineName =
             reader.GetString(0);
 
-        long incidentCount =
-            reader.GetInt64(1);
+        int incidentCount =
+            reader.GetInt32(1);
 
         double totalDowntime =
             reader.GetDouble(2);
@@ -293,51 +340,56 @@ static void AnalyzeMachines()
         double totalCost =
             reader.GetDouble(3);
 
-        Console.WriteLine();
-
-        Console.WriteLine(machineName);
-
-        Console.WriteLine(
-            $"Incidents       : {incidentCount}"
-        );
-
-        Console.WriteLine(
-            $"Downtime        : {totalDowntime:N2} h"
-        );
-
-        Console.WriteLine(
-            $"Downtime cost   : {totalCost:N2} €"
-        );
+        Console.WriteLine("---------------------------------");
+        Console.WriteLine($"Machine: {machineName}");
+        Console.WriteLine($"Failures: {incidentCount}");
+        Console.WriteLine($"Total downtime: {totalDowntime:F2} h");
+        Console.WriteLine($"Total cost: €{totalCost:F2}");
     }
 
     if (!hasMachines)
     {
-        Console.WriteLine(
-            "No incidents available for analysis."
-        );
+        Console.WriteLine("No machine data available.");
     }
+
+    Console.WriteLine();
+    Pause();
 }
 
 
-static double ReadPositiveNumber(
-    string message)
+// ========================================
+// INPUT HELPERS
+// ========================================
+
+static double ReadPositiveNumber(string message)
 {
     while (true)
     {
         Console.Write(message);
 
-        if (double.TryParse(
-            Console.ReadLine(),
-            out double value))
+        string? input = Console.ReadLine();
+
+        if (
+            double.TryParse(
+                input,
+                out double value
+            )
+            && value > 0
+        )
         {
-            if (value > 0)
-            {
-                return value;
-            }
+            return value;
         }
 
         Console.WriteLine(
-            "Error: enter a number greater than 0."
+            "Please enter a number greater than 0."
         );
     }
+}
+
+
+static void Pause()
+{
+    Console.WriteLine();
+    Console.WriteLine("Press ENTER to continue...");
+    Console.ReadLine();
 }
