@@ -62,3 +62,23 @@ Planned projects:
 Learn software development by building practical tools for real industrial problems.
 
 **Diagnose → Design → Improve → Make → Maintain**
+
+## Togo & Europe Opportunity Resources
+
+The console app includes a menu item for these external resources. Use them to explore funding, business support and partnerships for Industrial Engineering Lab's Italy–Togo direction.
+
+### Togo
+- [Investment opportunities — Investir au Togo](https://projets.investirautogo.tg/opportunities)
+- [Guichet PME Togo](https://gtpme.tg)
+- [Professional procedures — Service public du Togo](https://service-public.gouv.tg/professional)
+
+### Europe: funding and partnerships
+- [EU Funding & Tenders](https://ec.europa.eu/info/funding-tenders)
+- [Enterprise Europe Network — partnering opportunities](https://een.ec.europa.eu/partnering-opportunities)
+- [Finnpartnership](https://finnpartnership.fi)
+- [CBI — Centre for the Promotion of Imports](https://www.cbi.eu)
+
+### Venture building
+- [Founders Factory](https://foundersfactory.com)
+
+> Note: these are external links, not verified live opportunities. Check eligibility, deadlines and current programme conditions on each official website.
