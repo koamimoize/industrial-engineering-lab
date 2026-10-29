@@ -15,7 +15,8 @@ while (true)
     Console.WriteLine("1. Add incident");
     Console.WriteLine("2. View incidents");
     Console.WriteLine("3. Machine analysis");
-    Console.WriteLine("4. Exit");
+    Console.WriteLine("4. Togo & Europe opportunities");
+    Console.WriteLine("5. Exit");
     Console.WriteLine();
 
     Console.Write("Choose an option: ");
@@ -36,6 +37,10 @@ while (true)
             break;
 
         case "4":
+            ShowOpportunities();
+            break;
+
+        case "5":
             return;
 
         default:
