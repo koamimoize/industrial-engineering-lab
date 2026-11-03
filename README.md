@@ -82,3 +82,20 @@ The console app includes a menu item for these external resources. Use them to e
 - [Founders Factory](https://foundersfactory.com)
 
 > Note: these are external links, not verified live opportunities. Check eligibility, deadlines and current programme conditions on each official website.
+
+
+## Website & Blog
+
+A lightweight static website is available in the `docs/` directory:
+
+- Homepage: `docs/index.html`
+- Blog index: `docs/blog/index.html`
+- First article: `docs/blog/mit-cba-fabrication-numerique.html`
+
+### Publish with GitHub Pages
+
+In the repository settings, open **Pages**, choose **Deploy from a branch**, select branch `main` and folder `/docs`, then save. Once GitHub Pages finishes deploying, the website will be available at:
+
+`https://koamimoize.github.io/industrial-engineering-lab/`
+
+The public URL becomes active only after GitHub Pages is enabled for this repository.
