@@ -59,6 +59,7 @@ body{background:radial-gradient(ellipse at 49% 32%,rgba(48,112,190,.25),transpar
     <a href="#modules"><span class="ico">▦</span>Modules</a>
     <a href="#opportunities"><span class="ico">⌕</span>Togo opportunities</a>
     <a href="#events"><span class="ico">◷</span>Events & networking</a>
+    <a href="#networking"><span class="ico">◎</span>Business networking</a>
     <a href="#legal"><span class="ico">⚖</span>Legal & property</a>
     <a href="#calculator"><span class="ico">∑</span>Downtime calculator</a>
     <div class="nav-label">Resources</div>
@@ -135,6 +136,26 @@ body{background:radial-gradient(ellipse at 49% 32%,rgba(48,112,190,.25),transpar
     </div>
     <div class="notice"><strong>Mission de participation :</strong> préparer une présentation courte du Lab, identifier 5 à 10 exposants ou intervenants pertinents, demander des rendez-vous B2B et noter les besoins concrets en maintenance, procédés, énergie, qualité et équipements. L’agenda API-ZF est une source de veille : les événements qui y figurent doivent être vérifiés individuellement.</div>
   </section>
+
+  <div class="section-head" id="networking"><div><h3>Togo Business Network · Prospection</h3><p>Répertoire dédoublonné des entreprises togolaises et fiches des partenaires japonais — construit à partir des documents de réseautage transmis.</p></div><span class="pill">73 entreprises · 11 partenaires</span></div>
+  <section class="panel">
+    <div class="grid" style="margin-bottom:16px">
+      <article class="metric"><div class="label">Entreprises togolaises</div><div class="value" id="networkCompanyCount">—</div><div class="note">Fiches dédoublonnées</div></article>
+      <article class="metric"><div class="label">Partenaires internationaux</div><div class="value" id="networkPartnerCount">—</div><div class="note">Fiches japonaises</div></article>
+      <article class="metric"><div class="label">Secteurs représentés</div><div class="value" id="networkSectorCount">—</div><div class="note">Classement indicatif</div></article>
+      <article class="metric"><div class="label">Contacts vérifiés</div><div class="value">0</div><div class="note">À confirmer directement</div></article>
+    </div>
+    <div class="toolbar"><input id="networkSearch" type="search" placeholder="Entreprise, contact, secteur, téléphone…"><select id="networkSector"><option value="">Tous les secteurs</option></select></div>
+    <div class="table-wrap"><table><thead><tr><th>Entreprise</th><th>Secteur</th><th>Contact</th><th>Coordonnées</th><th>Pertinence pour le Lab</th><th>Suivi</th></tr></thead><tbody id="networkRows"><tr><td colspan="6" class="empty">Chargement du répertoire…</td></tr></tbody></table></div>
+    <p class="hint" id="networkStatus">Chargement des entreprises…</p>
+    <div class="notice"><strong>Règle de prospection :</strong> ces informations sont issues des fiches partagées, pas d’une validation en temps réel. Vérifier l’existence de l’entreprise, le rôle du contact, le numéro, l’adresse e-mail et le canal officiel avant d’envoyer un document ou de partager des informations personnelles. Commencer par un message de présentation et une demande de rendez-vous exploratoire.</div>
+  </section>
+  <div class="section-head"><div><h3>International partners · Japan</h3><p>Intérêts déclarés dans les fiches et entreprises togolaises suggérées pour préparer une mise en relation.</p></div></div>
+  <section class="panel">
+    <div class="table-wrap"><table><thead><tr><th>Partenaire</th><th>Secteur</th><th>Responsable</th><th>Intérêt déclaré</th><th>Entreprises togolaises correspondantes</th></tr></thead><tbody id="partnerRows"><tr><td colspan="5" class="empty">Chargement des partenaires…</td></tr></tbody></table></div>
+    <p class="hint" id="partnerStatus">Fiches japonaises — coordonnées directes non fournies dans le document.</p>
+  </section>
+
   <div class="section-head" id="energy"><div><h3>Energy Intelligence</h3><p>Module en préparation — suivi des consommations, actifs énergétiques et coûts.</p></div></div>
   <section class="panel"><p class="hint">Prochaine évolution : registre des équipements, relevés de consommation, indicateurs kWh/unité produite et alertes de dérive.</p></section>
   <div class="section-head" id="legal"><div><h3>Legal & Property · Togo</h3><p>Ressource officielle pour trouver un avocat et préparer les démarches juridiques liées à tes projets et à ton patrimoine au Togo.</p></div><span class="pill">Ressource officielle</span></div>
@@ -182,6 +203,43 @@ let opportunities=[];
 function renderRows(){const q=document.getElementById('search').value.toLocaleLowerCase('fr'),s=document.getElementById('sector').value;const found=opportunities.filter(o=>(!s||o.sector===s)&&Object.values(o).join(' ').toLocaleLowerCase('fr').includes(q));const body=document.getElementById('opportunityRows');body.innerHTML='';if(!found.length){body.innerHTML='<tr><td colspan="5" class="empty">Aucun résultat pour cette recherche.</td></tr>';return}found.slice(0,40).forEach(o=>{const tr=document.createElement('tr');[o.sector||'—',o.opportunity_title||'—',o.potential_customer||'—',o.priority||'—',o.validation_status||'—'].forEach((v,i)=>{const td=document.createElement('td');td.textContent=v;if(i===3)td.className='priority';tr.appendChild(td)});body.appendChild(tr)});document.getElementById('dataStatus').textContent=found.length+' résultat(s) · affichage limité aux 40 premières lignes.'}
 async function loadData(){try{const [opRes,svRes]=await Promise.all([fetch('../data/togo-opportunities/opportunities.csv'),fetch('../data/togo-opportunities/services.csv')]);if(!opRes.ok||!svRes.ok)throw new Error('Fichiers CSV indisponibles');opportunities=parseCSV(await opRes.text());const services=parseCSV(await svRes.text());const sectors=[...new Set(opportunities.map(o=>o.sector).filter(Boolean))].sort();document.getElementById('oppCount').textContent=opportunities.length;document.getElementById('serviceCount').textContent=services.length;document.getElementById('sectorCount').textContent=sectors.length;document.getElementById('orbitOpp').textContent=opportunities.length;document.getElementById('orbitServices').textContent=services.length;document.getElementById('orbitSectors').textContent=sectors.length;const select=document.getElementById('sector');sectors.forEach(s=>{const option=document.createElement('option');option.value=s;option.textContent=s.replaceAll('_',' ');select.appendChild(option)});document.getElementById('dataStatus').textContent='Données chargées depuis le repository GitHub.';renderRows()}catch(e){document.getElementById('dataStatus').textContent='Données non chargées : '+e.message+'. Ouvre le site via GitHub Pages ou un serveur local.';document.getElementById('dataStatus').classList.add('error');document.getElementById('opportunityRows').innerHTML='<tr><td colspan="5" class="empty">Les fichiers CSV ne sont pas accessibles dans cet aperçu.</td></tr>'}}
 document.getElementById('search').addEventListener('input',renderRows);document.getElementById('sector').addEventListener('change',renderRows);loadData();
+
+async function loadNetworking(){
+  const status=document.getElementById('networkStatus'),body=document.getElementById('networkRows'),partnerBody=document.getElementById('partnerRows');
+  try{
+    const [cRes,pRes]=await Promise.all([fetch('../data/togo-networking/companies.json'),fetch('../data/togo-networking/international-partners.json')]);
+    if(!cRes.ok||!pRes.ok)throw new Error('Fichiers de réseautage indisponibles');
+    const cData=await cRes.json(),pData=await pRes.json(),companies=cData.companies||[],partners=pData.partners||[];
+    document.getElementById('networkCompanyCount').textContent=companies.length;
+    document.getElementById('networkPartnerCount').textContent=partners.length;
+    const sectors=[...new Set(companies.map(c=>c.sector).filter(Boolean))].sort();
+    document.getElementById('networkSectorCount').textContent=sectors.length;
+    const sectorSelect=document.getElementById('networkSector');
+    sectors.forEach(s=>{const o=document.createElement('option');o.value=s;o.textContent=s;sectorSelect.appendChild(o)});
+    function drawCompanies(){
+      const q=document.getElementById('networkSearch').value.toLocaleLowerCase('fr'),s=sectorSelect.value;
+      const rows=companies.filter(c=>(!s||c.sector===s)&&[c.company,c.sector,c.contact,c.phone,c.email,c.fit,c.activity].join(' ').toLocaleLowerCase('fr').includes(q));
+      body.innerHTML='';
+      if(!rows.length){body.innerHTML='<tr><td colspan="6" class="empty">Aucun résultat.</td></tr>';return}
+      rows.forEach(c=>{
+        const tr=document.createElement('tr');
+        const add=(value)=>{const td=document.createElement('td');td.textContent=value||'—';tr.appendChild(td)};
+        add(c.company);add(c.sector);add(c.contact);
+        const contact=document.createElement('td');contact.textContent=[c.phone,c.email].filter(Boolean).join(' · ')||'Non communiqué';
+        if(c.website){const a=document.createElement('a');a.href=c.website;a.target='_blank';a.rel='noopener';a.textContent='Site web ↗';a.style.display='block';a.style.color='var(--cyan)';contact.appendChild(a)}
+        tr.appendChild(contact);add(c.fit);
+        const follow=document.createElement('td');follow.textContent=c.verification||'À vérifier';follow.className='priority';tr.appendChild(follow);body.appendChild(tr);
+      });
+      status.textContent=rows.length+' entreprise(s) affichée(s) sur '+companies.length+'. Source : fiches de réseautage transmises.';
+    }
+    drawCompanies();document.getElementById('networkSearch').addEventListener('input',drawCompanies);sectorSelect.addEventListener('change',drawCompanies);
+    partnerBody.innerHTML='';
+    partners.forEach(p=>{const tr=document.createElement('tr');[p.name,p.sector,p.contact,p.interest,p.matching].forEach(v=>{const td=document.createElement('td');td.textContent=v||'—';tr.appendChild(td)});partnerBody.appendChild(tr)});
+    document.getElementById('partnerStatus').textContent=partners.length+' partenaires internationaux recensés. Les entreprises correspondantes sont des pistes de rapprochement, pas des partenariats confirmés.';
+  }catch(e){status.textContent='Répertoire non chargé : '+e.message;status.classList.add('error');body.innerHTML='<tr><td colspan="6" class="empty">Données indisponibles dans cet aperçu.</td></tr>';partnerBody.innerHTML='<tr><td colspan="5" class="empty">Données indisponibles.</td></tr>'}
+}
+
+loadNetworking();
 </script>
 </body>
 </html>
