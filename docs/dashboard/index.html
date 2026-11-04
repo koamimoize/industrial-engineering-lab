@@ -36,13 +36,15 @@ body{background:radial-gradient(ellipse at 49% 32%,rgba(48,112,190,.25),transpar
 .n5{bottom:9%;left:10%;background:radial-gradient(circle at 30% 20%,#8c9dff,#3348b8 78%)}
 .n6{top:16%;left:2%;background:radial-gradient(circle at 30% 20%,#ffca65,#bd6a12 78%)}
 .n7{top:42%;right:-1%;background:radial-gradient(circle at 30% 20%,#ff9d85,#b43e51 78%)}
+.n8{top:50%;left:-1%;transform:translateY(-50%);background:radial-gradient(circle at 30% 20%,#8bd9ff,#24558e 78%)}
+.n8:hover{transform:translateY(-50%) scale(1.08)}
 .orbit-side{display:grid;gap:13px}.orbit-info{padding:20px;border-radius:20px;background:linear-gradient(145deg,rgba(235,245,255,.12),rgba(139,183,255,.045));border:1px solid rgba(185,217,255,.2);backdrop-filter:blur(22px)}
 .orbit-info h3{font-size:15px;margin:0 0 8px}.orbit-info p{font-size:12px;color:var(--muted);margin:0}.orbit-stat{display:flex;justify-content:space-between;gap:10px;padding:9px 0;border-bottom:1px solid rgba(190,215,255,.12);font-size:11px}.orbit-stat:last-child{border:0}.orbit-stat b{color:#d8edff}
 .command-caption{text-align:center;color:#9fb9d8;font-size:10px;letter-spacing:.14em;text-transform:uppercase;margin-top:-5px}
 .metric{border-radius:17px}.panel,.module{border-radius:19px}.module:hover{border-color:rgba(124,210,255,.55);box-shadow:0 18px 45px rgba(0,0,0,.22)}
 .section-head{scroll-margin-top:20px}.calc button{background:linear-gradient(90deg,#66b9ff,#5b8cff);color:#06172d}.notice{background:rgba(255,198,91,.08);border-left-color:#ffc65b;border-radius:0 10px 10px 0}
 @media(max-width:1100px){.command-stage{grid-template-columns:1fr}.orbit-side{grid-template-columns:repeat(2,minmax(0,1fr))}.orbit-board{width:min(100%,700px)}}
-@media(max-width:650px){.orbit-board{min-height:0;aspect-ratio:1/1;width:100%;margin:5px auto 18px}.orbit-node{width:clamp(86px,25vw,112px);padding:8px}.orbit-node .node-icon{font-size:19px}.orbit-node b{font-size:10px}.orbit-node small{font-size:8px}.orbit-core{min-width:130px;width:35%;padding:9px}.core-icon{font-size:29px}.orbit-core strong{font-size:16px}.orbit-core small{font-size:8px}.n1{top:0}.n2{right:0;top:15%}.n3{right:2%;bottom:7%}.n4{bottom:0}.n5{left:2%;bottom:7%}.n6{left:0;top:15%}.n7{display:none}.orbit-side{grid-template-columns:1fr}.command-stage{gap:12px}}
+@media(max-width:650px){.orbit-board{min-height:0;aspect-ratio:1/1;width:100%;margin:5px auto 18px}.orbit-node{width:clamp(86px,25vw,112px);padding:8px}.orbit-node .node-icon{font-size:19px}.orbit-node b{font-size:10px}.orbit-node small{font-size:8px}.orbit-core{min-width:130px;width:35%;padding:9px}.core-icon{font-size:29px}.orbit-core strong{font-size:16px}.orbit-core small{font-size:8px}.n1{top:0}.n2{right:0;top:15%}.n3{right:2%;bottom:7%}.n4{bottom:0}.n5{left:2%;bottom:7%}.n6{left:0;top:15%}.n7,.n8{display:none}.orbit-side{grid-template-columns:1fr}.command-stage{gap:12px}}
 
 </style>
 </head>
@@ -57,6 +59,7 @@ body{background:radial-gradient(ellipse at 49% 32%,rgba(48,112,190,.25),transpar
     <a href="#modules"><span class="ico">▦</span>Modules</a>
     <a href="#opportunities"><span class="ico">⌕</span>Togo opportunities</a>
     <a href="#events"><span class="ico">◷</span>Events & networking</a>
+    <a href="#legal"><span class="ico">⚖</span>Legal & property</a>
     <a href="#calculator"><span class="ico">∑</span>Downtime calculator</a>
     <div class="nav-label">Resources</div>
     <a href="../index.html"><span class="ico">↗</span>Lab website</a>
@@ -86,6 +89,7 @@ body{background:radial-gradient(ellipse at 49% 32%,rgba(48,112,190,.25),transpar
         <a class="orbit-node n5" href="#opportunities"><span class="node-icon">▤</span><b>Opportunity<br>Database</b><small>Discover · Partner</small></a>
         <a class="orbit-node n6" href="https://github.com/koamimoize/industrial-engineering-lab/tree/main/research"><span class="node-icon">⌕</span><b>Research &<br>Knowledge</b><small>Learn · Innovate</small></a>
         <a class="orbit-node n7" href="#energy"><span class="node-icon">ϟ</span><b>Energy<br>Intelligence</b><small>Monitor · Optimize</small></a>
+        <a class="orbit-node n8" href="#legal"><span class="node-icon">⚖</span><b>Legal &<br>Property</b><small>Protect · Verify</small></a>
       </div>
       <div class="command-caption">Industrial intelligence · connected by purpose</div>
     </div>
@@ -133,6 +137,27 @@ body{background:radial-gradient(ellipse at 49% 32%,rgba(48,112,190,.25),transpar
   </section>
   <div class="section-head" id="energy"><div><h3>Energy Intelligence</h3><p>Module en préparation — suivi des consommations, actifs énergétiques et coûts.</p></div></div>
   <section class="panel"><p class="hint">Prochaine évolution : registre des équipements, relevés de consommation, indicateurs kWh/unité produite et alertes de dérive.</p></section>
+  <div class="section-head" id="legal"><div><h3>Legal & Property · Togo</h3><p>Ressource officielle pour trouver un avocat et préparer les démarches juridiques liées à tes projets et à ton patrimoine au Togo.</p></div><span class="pill">Ressource officielle</span></div>
+  <section class="panel">
+    <div class="modules">
+      <article class="module">
+        <div class="symbol">⚖</div><h4>Annuaire officiel des avocats</h4>
+        <p>Consulter les avocats inscrits au Barreau du Togo et rechercher un professionnel pour une consultation ou un accompagnement juridique.</p>
+        <span class="status ready">Barreau du Togo</span><a class="link" href="https://www.barreaudutogo.tg/avocat/" target="_blank" rel="noopener">Ouvrir l’annuaire ↗</a>
+      </article>
+      <article class="module">
+        <div class="symbol">⌂</div><h4>Maison & foncier</h4>
+        <p>Préparer les questions sur le titre foncier, la vérification des actes, la vente, la succession et la sécurisation d’un terrain.</p>
+        <span class="status">À préparer avec un avocat / notaire</span><a class="link" href="https://www.barreaudutogo.tg/avocat/" target="_blank" rel="noopener">Trouver un avocat ↗</a>
+      </article>
+      <article class="module">
+        <div class="symbol">▤</div><h4>Honoraires & aide juridique</h4>
+        <p>Consulter les informations du Barreau sur les honoraires, l’aide juridique, la commission d’office et les permanences de conseillers.</p>
+        <span class="status ready">Informations du Barreau</span><a class="link" href="https://www.barreaudutogo.tg/" target="_blank" rel="noopener">Services du Barreau ↗</a>
+      </article>
+    </div>
+    <div class="notice"><strong>Contact général du Barreau :</strong> Palais de justice, 01 BP 3657, Lomé · (+228) 22 22 08 82 / 93 99 09 35 · (+228) 22 21 67 52 · secretariat.batonnier@barreaudutogo.tg. Vérifie directement les coordonnées, la disponibilité, la spécialité et les honoraires avant de mandater un avocat. L’annuaire officiel précise que les avocats qui y sont répertoriés sont membres en règle de l’Ordre.</div>
+  </section>
   <div class="section-head" id="calculator"><div><h3>Maintenance downtime calculator</h3><p>Calcul local dans ton navigateur — aucune donnée n'est envoyée.</p></div></div>
   <section class="panel">
     <div class="calc">
