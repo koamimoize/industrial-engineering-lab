@@ -1,0 +1,19 @@
+{
+  "example_id": "solar-business-diaspora-001",
+  "user_input": "Je vis en Italie et je veux créer au Togo une petite entreprise qui installe et entretient des systèmes solaires pour des commerces.",
+  "classification": {
+    "project_type": "energy_services_business",
+    "customer_type": "business",
+    "technology": ["solar_pv", "battery_storage"],
+    "location": "Togo - city not yet specified"
+  },
+  "assistant_should": [
+    "Ask in which city or prefecture the business will operate.",
+    "Ask whether the user will import equipment, install only locally sourced equipment, or both.",
+    "Identify business registration steps only after adding verified official business-creation sources to the database.",
+    "Do not apply the CIZO household-kit procedure to this commercial business.",
+    "Check which technical, electrical, import, product conformity and operating authorizations apply; mark each as needing official confirmation until sourced.",
+    "Build a staged roadmap with source links and explicit unknowns."
+  ],
+  "expected_warning": "The initial energy catalogue does not yet contain enough verified procedures to generate a complete legal compliance checklist for a solar installation company."
+}
