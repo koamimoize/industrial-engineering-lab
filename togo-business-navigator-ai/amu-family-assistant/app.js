@@ -52,7 +52,7 @@ function renderProviders() {
     return (!query || text.includes(query)) && (!region || p.region === region) && (!type || p.type === type);
   });
   $("provider-result-count").textContent = matches.length + " résultat(s)";
-  $("provider-list").innerHTML = matches.length ? matches.map(p => `
+  renderRecommendation(matches, region, type);\n  $("provider-list").innerHTML = matches.length ? matches.map(p => `
     <article class="provider-card">
       <h3>${escapeHtml(p.name)}</h3>
       <p>Code : ${escapeHtml(p.code)} · ${escapeHtml(p.type)}</p>
