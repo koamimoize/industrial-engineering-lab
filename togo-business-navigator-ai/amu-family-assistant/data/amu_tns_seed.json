@@ -1,0 +1,807 @@
+{
+  "schema_version": "1.0",
+  "product": "AMU Family Assistant",
+  "source_note": "Données initiales transcrites uniquement à partir des extraits fournis par l'utilisateur. Elles ne constituent pas le catalogue complet de la CNSS. Vérifier les référentiels officiels avant toute décision.",
+  "sources": [
+    {
+      "label": "Portail AMU-TNS CNSS",
+      "url": "https://tns.cnss.tg/"
+    },
+    {
+      "label": "Référentiels AMU-TNS",
+      "url": "https://tns.cnss.tg/referamu/"
+    },
+    {
+      "label": "Simulateurs officiels",
+      "url": "https://tns.cnss.tg/referamu/outils"
+    },
+    {
+      "label": "Référentiel des prestataires",
+      "url": "https://referentiels.amu.tg/"
+    }
+  ],
+  "contribution": {
+    "annual_xof": 102000,
+    "monthly_xof": 10000,
+    "quarterly_xof": 28500,
+    "semiannual_xof": 54000,
+    "waiting_period_days": 90,
+    "verification_status": "À confirmer selon la situation familiale et l'éligibilité"
+  },
+  "stay_reference": {
+    "coverage_rate": 0.9,
+    "note": "Taux affiché dans l'extrait du référentiel pour les séjours sélectionnés. Les montants sont conservés tels qu'affichés. L'unité exacte (journalier/forfait par période) et les règles d'application doivent être confirmées.",
+    "rooms": [
+      {
+        "room": "1 à 2 lits",
+        "provider": "CHR",
+        "periods": [
+          {
+            "period": "Première semaine",
+            "amount_xof": 3750
+          },
+          {
+            "period": "8e au 14e jour",
+            "amount_xof": 2500
+          },
+          {
+            "period": "15 jours et plus",
+            "amount_xof": 1250
+          }
+        ]
+      },
+      {
+        "room": "1 lit",
+        "provider": "CHR",
+        "periods": [
+          {
+            "period": "Première semaine",
+            "amount_xof": 3750
+          },
+          {
+            "period": "8e au 14e jour",
+            "amount_xof": 2500
+          },
+          {
+            "period": "15 jours et plus",
+            "amount_xof": 1250
+          }
+        ]
+      },
+      {
+        "room": "1 lit",
+        "provider": "Clinique privée",
+        "periods": [
+          {
+            "period": "Première semaine",
+            "amount_xof": 5000
+          },
+          {
+            "period": "8e au 14e jour",
+            "amount_xof": 3375
+          },
+          {
+            "period": "15 jours et plus",
+            "amount_xof": 1625
+          }
+        ]
+      },
+      {
+        "room": "1 à 2 lits",
+        "provider": "Cabinet privé",
+        "periods": [
+          {
+            "period": "Première semaine",
+            "amount_xof": 3750
+          },
+          {
+            "period": "8e au 14e jour",
+            "amount_xof": 2500
+          },
+          {
+            "period": "15 jours et plus",
+            "amount_xof": 1250
+          }
+        ]
+      },
+      {
+        "room": "1 à 2 lits",
+        "provider": "CHR",
+        "periods": [
+          {
+            "period": "Première semaine",
+            "amount_xof": 3750
+          },
+          {
+            "period": "8e au 14e jour",
+            "amount_xof": 2500
+          },
+          {
+            "period": "15 jours et plus",
+            "amount_xof": 1250
+          }
+        ]
+      },
+      {
+        "room": "1 à 2 lits",
+        "provider": "CHU",
+        "periods": [
+          {
+            "period": "Première semaine",
+            "amount_xof": 5000
+          },
+          {
+            "period": "8e au 14e jour",
+            "amount_xof": 3375
+          },
+          {
+            "period": "15 jours et plus",
+            "amount_xof": 1625
+          }
+        ]
+      },
+      {
+        "room": "1 à 2 lits",
+        "provider": "Clinique privée",
+        "periods": [
+          {
+            "period": "Première semaine",
+            "amount_xof": 5000
+          },
+          {
+            "period": "8e au 14e jour",
+            "amount_xof": 3375
+          },
+          {
+            "period": "15 jours et plus",
+            "amount_xof": 1625
+          }
+        ]
+      },
+      {
+        "room": "1 à 2 lits",
+        "provider": "Hôpital de district",
+        "periods": [
+          {
+            "period": "Première semaine",
+            "amount_xof": 3750
+          },
+          {
+            "period": "8e au 14e jour",
+            "amount_xof": 2500
+          },
+          {
+            "period": "15 jours et plus",
+            "amount_xof": 1250
+          }
+        ]
+      }
+    ]
+  },
+  "acts": [
+    {
+      "code": "S114",
+      "label": "Consultation générale",
+      "chapter": "Consultation",
+      "status": "Remboursable"
+    },
+    {
+      "code": "S115",
+      "label": "Consultation prénatale (y compris les supports)",
+      "chapter": "Consultation",
+      "status": "Remboursable"
+    },
+    {
+      "code": "P152",
+      "label": "Injection IM",
+      "chapter": "Soins infirmiers",
+      "status": "Remboursable"
+    },
+    {
+      "code": "P153",
+      "label": "Injection IV",
+      "chapter": "Soins infirmiers",
+      "status": "Remboursable"
+    },
+    {
+      "code": "P154",
+      "label": "Perfusion",
+      "chapter": "Soins infirmiers",
+      "status": "Remboursable"
+    },
+    {
+      "code": "P155",
+      "label": "Pansement",
+      "chapter": "Soins infirmiers",
+      "status": "Remboursable"
+    },
+    {
+      "code": "P156",
+      "label": "Circoncision",
+      "chapter": "Soins infirmiers",
+      "status": "Remboursable"
+    },
+    {
+      "code": "P157",
+      "label": "Incision d'abcès",
+      "chapter": "Soins infirmiers",
+      "status": "Remboursable"
+    },
+    {
+      "code": "P158",
+      "label": "Sutures",
+      "chapter": "Soins infirmiers",
+      "status": "Remboursable"
+    },
+    {
+      "code": "B535",
+      "label": "Transfusion de sang ou d'éléments figurés du sang",
+      "chapter": "Actes portant sur les tissus en général",
+      "status": "Remboursable"
+    },
+    {
+      "code": "C104",
+      "label": "Ponction lombaire ou sous-occipitale",
+      "chapter": "Actes portant sur la tête",
+      "status": "Remboursable"
+    },
+    {
+      "code": "H200",
+      "label": "Ponction de l'abdomen",
+      "chapter": "Actes portant sur l'abdomen",
+      "status": "Remboursable"
+    },
+    {
+      "code": "P900",
+      "label": "Mise en observation journalière / soins quotidiens en ambulatoire",
+      "chapter": "Mise en observation / soins en ambulatoire",
+      "status": "Remboursable"
+    },
+    {
+      "code": "P800",
+      "label": "Accouchement simple (acte)",
+      "chapter": "Actes liés à l'accouchement",
+      "status": "Remboursable"
+    },
+    {
+      "code": "P801",
+      "label": "Accouchement gémellaire (acte)",
+      "chapter": "Actes liés à l'accouchement",
+      "status": "Remboursable"
+    },
+    {
+      "code": "P802",
+      "label": "Accouchement par le siège (acte)",
+      "chapter": "Actes liés à l'accouchement",
+      "status": "Remboursable"
+    },
+    {
+      "code": "P803",
+      "label": "Délivrance artificielle ou révision utérine isolée",
+      "chapter": "Actes liés à l'accouchement",
+      "status": "Remboursable"
+    },
+    {
+      "code": "P804",
+      "label": "Suture d'épisiotomie isolée",
+      "chapter": "Actes liés à l'accouchement",
+      "status": "Remboursable"
+    },
+    {
+      "code": "P805",
+      "label": "Suture pour déchirure du plancher périnéal et du vagin",
+      "chapter": "Actes liés à l'accouchement",
+      "status": "Remboursable"
+    },
+    {
+      "code": "S100",
+      "label": "Consultation médecine générale",
+      "chapter": "Consultation",
+      "status": "Remboursable"
+    }
+  ],
+  "providers": [
+    {
+      "code": "060605",
+      "name": "CLINIQUE NOVISSI",
+      "type": "Hôpital de district",
+      "sector": "Privé",
+      "level": "1",
+      "prefecture": "District 2",
+      "region": "Lomé Commune",
+      "verification": "Transcrit depuis un extrait fourni — convention et services précis à confirmer"
+    },
+    {
+      "code": "060604",
+      "name": "CLINIQUE DE NEPHROLOGIE CESAR",
+      "type": "CHU",
+      "sector": "Privé",
+      "level": "3",
+      "prefecture": "District 2",
+      "region": "Lomé Commune",
+      "verification": "Transcrit depuis un extrait fourni — convention et services précis à confirmer"
+    },
+    {
+      "code": "060603",
+      "name": "CABINET MEDICAL SAM",
+      "type": "CHU",
+      "sector": "Privé",
+      "level": "3",
+      "prefecture": "AGOE-NYIVE",
+      "region": "Lomé Commune",
+      "verification": "Transcrit depuis un extrait fourni — convention et services précis à confirmer"
+    },
+    {
+      "code": "060602",
+      "name": "CABINET MEDICAL EMERAUDE",
+      "type": "CHU",
+      "sector": "Privé",
+      "level": "3",
+      "prefecture": "District 2",
+      "region": "Lomé Commune",
+      "verification": "Transcrit depuis un extrait fourni — convention et services précis à confirmer"
+    },
+    {
+      "code": "010153",
+      "name": "PHARMACIE SAMBONE",
+      "type": "Pharmacie",
+      "sector": "Privé",
+      "level": "0",
+      "prefecture": "TONE",
+      "region": "Savanes",
+      "verification": "Transcrit depuis un extrait fourni — convention et services précis à confirmer"
+    },
+    {
+      "code": "060601",
+      "name": "INFIRMERIE DE L'INSTITUT NATIONAL D'HYGIENE (INH)",
+      "type": "Infirmerie",
+      "sector": "Public",
+      "level": "1",
+      "prefecture": "District 1",
+      "region": "Lomé Commune",
+      "verification": "Transcrit depuis un extrait fourni — convention et services précis à confirmer"
+    },
+    {
+      "code": "040321",
+      "name": "CENTRE DE PRISE EN CHARGE DES URGENCES SANITAIRES (CPECUS)",
+      "type": "Hôpital de district",
+      "sector": "Public",
+      "level": "1",
+      "prefecture": "HAHO",
+      "region": "Plateaux",
+      "verification": "Transcrit depuis un extrait fourni — convention et services précis à confirmer"
+    },
+    {
+      "code": "050257",
+      "name": "PHARMACIE ELKANAH",
+      "type": "Pharmacie",
+      "sector": "Privé",
+      "level": "0",
+      "prefecture": "ZIO",
+      "region": "Maritime",
+      "verification": "Transcrit depuis un extrait fourni — convention et services précis à confirmer"
+    },
+    {
+      "code": "020214",
+      "name": "PHARMACIE DU RECONFORT",
+      "type": "Pharmacie",
+      "sector": "Privé",
+      "level": "0",
+      "prefecture": "KOZAH",
+      "region": "Kara",
+      "verification": "Transcrit depuis un extrait fourni — convention et services précis à confirmer"
+    },
+    {
+      "code": "040320",
+      "name": "PHARMACIE LAVOISIER-JESPA",
+      "type": "Pharmacie",
+      "sector": "Privé",
+      "level": "0",
+      "prefecture": "KLOTO",
+      "region": "Plateaux",
+      "verification": "Transcrit depuis un extrait fourni — convention et services précis à confirmer"
+    },
+    {
+      "code": "060600",
+      "name": "CLINIQUE LES P'TITS ANGES",
+      "type": "CHU",
+      "sector": "Privé",
+      "level": "3",
+      "prefecture": "District 5",
+      "region": "Lomé Commune",
+      "verification": "Transcrit depuis un extrait fourni — convention et services précis à confirmer"
+    },
+    {
+      "code": "020213",
+      "name": "CMS ALAFIA",
+      "type": "USP type II",
+      "sector": "Privé à but non lucratif",
+      "level": "1",
+      "prefecture": "ASSOLI",
+      "region": "Kara",
+      "verification": "Transcrit depuis un extrait fourni — convention et services précis à confirmer"
+    },
+    {
+      "code": "050256",
+      "name": "CABINET DE SOINS INFIRMIERS EBENEZER",
+      "type": "USP type I",
+      "sector": "Privé",
+      "level": "1",
+      "prefecture": "VO",
+      "region": "Maritime",
+      "verification": "Transcrit depuis un extrait fourni — convention et services précis à confirmer"
+    },
+    {
+      "code": "060599",
+      "name": "CABINET DE SOINS INFIRMIERS EDZODZINAM",
+      "type": "USP type I",
+      "sector": "Privé",
+      "level": "1",
+      "prefecture": "District 4",
+      "region": "Lomé Commune",
+      "verification": "Transcrit depuis un extrait fourni — convention et services précis à confirmer"
+    },
+    {
+      "code": "060598",
+      "name": "PHARMACIE EL NOUR",
+      "type": "Pharmacie",
+      "sector": "Privé",
+      "level": "0",
+      "prefecture": "AGOE-NYIVE",
+      "region": "Lomé Commune",
+      "verification": "Transcrit depuis un extrait fourni — convention et services précis à confirmer"
+    },
+    {
+      "code": "060597",
+      "name": "LABORATOIRE D'ANALYSE MEDICALE DAS LABOR",
+      "type": "CHU",
+      "sector": "Privé",
+      "level": "3",
+      "prefecture": "District 5",
+      "region": "Lomé Commune",
+      "verification": "Transcrit depuis un extrait fourni — convention et services précis à confirmer"
+    },
+    {
+      "code": "040319",
+      "name": "CLINIQUE ESPERERANCE 22",
+      "type": "CHR",
+      "sector": "Privé",
+      "level": "2",
+      "prefecture": "OGOU",
+      "region": "Plateaux",
+      "verification": "Transcrit depuis un extrait fourni — convention et services précis à confirmer"
+    },
+    {
+      "code": "060596",
+      "name": "INFIRMERIE COMMUNE GOLFE 1",
+      "type": "Infirmerie",
+      "sector": "Public",
+      "level": "1",
+      "prefecture": "District 2",
+      "region": "Lomé Commune",
+      "verification": "Transcrit depuis un extrait fourni — convention et services précis à confirmer"
+    },
+    {
+      "code": "030149",
+      "name": "DEPOT PHARMACEUTIQUE DE KOUSSOUNTOU LA BENEDICTION",
+      "type": "Dépôt pharmacie",
+      "sector": "Privé",
+      "level": "0",
+      "prefecture": "TCHAMBA",
+      "region": "Centre",
+      "verification": "Transcrit depuis un extrait fourni — convention et services précis à confirmer"
+    },
+    {
+      "code": "060595",
+      "name": "CLINIQUE MEDICALE PAIN DE VIE",
+      "type": "CHR",
+      "sector": "Privé",
+      "level": "2",
+      "prefecture": "District 5",
+      "region": "Lomé Commune",
+      "verification": "Transcrit depuis un extrait fourni — convention et services précis à confirmer"
+    },
+    {
+      "code": "050255",
+      "name": "CMS ATE AND CARIN HEMMES",
+      "type": "USP type II",
+      "sector": "Privé à but non lucratif",
+      "level": "1",
+      "prefecture": "Avé",
+      "region": "Maritime",
+      "verification": "Transcrit depuis un extrait fourni — convention et services précis à confirmer"
+    },
+    {
+      "code": "060594",
+      "name": "CABINET MEDICAL ORTELA",
+      "type": "CHU",
+      "sector": "Privé",
+      "level": "3",
+      "prefecture": "District 5",
+      "region": "Lomé Commune",
+      "verification": "Transcrit depuis un extrait fourni — convention et services précis à confirmer"
+    },
+    {
+      "code": "040318",
+      "name": "USP GBENDE",
+      "type": "USP type I",
+      "sector": "Public",
+      "level": "1",
+      "prefecture": "AKEBOU",
+      "region": "Plateaux",
+      "verification": "Transcrit depuis un extrait fourni — convention et services précis à confirmer"
+    },
+    {
+      "code": "060593",
+      "name": "CMS MAISON DU HADJ",
+      "type": "CHU",
+      "sector": "Privé à but non lucratif",
+      "level": "3",
+      "prefecture": "District 2",
+      "region": "Lomé Commune",
+      "verification": "Transcrit depuis un extrait fourni — convention et services précis à confirmer"
+    },
+    {
+      "code": "060592",
+      "name": "USP NYIVEMEGBLE",
+      "type": "USP type I",
+      "sector": "Public",
+      "level": "1",
+      "prefecture": "AGOE-NYIVE",
+      "region": "Lomé Commune",
+      "verification": "Transcrit depuis un extrait fourni — convention et services précis à confirmer"
+    },
+    {
+      "code": "050254",
+      "name": "USP AKLADJENOU",
+      "type": "USP type I",
+      "sector": "Public",
+      "level": "1",
+      "prefecture": "YOTO",
+      "region": "Maritime",
+      "verification": "Transcrit depuis un extrait fourni — convention et services précis à confirmer"
+    },
+    {
+      "code": "050253",
+      "name": "USP TONA KONDJI",
+      "type": "USP type I",
+      "sector": "Public",
+      "level": "1",
+      "prefecture": "YOTO",
+      "region": "Maritime",
+      "verification": "Transcrit depuis un extrait fourni — convention et services précis à confirmer"
+    },
+    {
+      "code": "050252",
+      "name": "USP TANOU",
+      "type": "USP type I",
+      "sector": "Public",
+      "level": "1",
+      "prefecture": "YOTO",
+      "region": "Maritime",
+      "verification": "Transcrit depuis un extrait fourni — convention et services précis à confirmer"
+    },
+    {
+      "code": "050251",
+      "name": "PHARMACIE KOBOYO",
+      "type": "Pharmacie",
+      "sector": "Privé",
+      "level": "0",
+      "prefecture": "ZIO",
+      "region": "Maritime",
+      "verification": "Transcrit depuis un extrait fourni — convention et services précis à confirmer"
+    },
+    {
+      "code": "060591",
+      "name": "CLINIQUE DZIFA",
+      "type": "CHU",
+      "sector": "Privé",
+      "level": "3",
+      "prefecture": "District 4",
+      "region": "Lomé Commune",
+      "verification": "Transcrit depuis un extrait fourni — convention et services précis à confirmer"
+    }
+  ],
+  "products": [
+    {
+      "code": "0004411",
+      "name": "AB-ZOLE 400",
+      "dci": "ALBENDAZOLE",
+      "form": "Comprimé",
+      "public_price_xof": 110,
+      "reimbursement_base_xof": 110,
+      "type": "Générique",
+      "status": "Remboursable"
+    },
+    {
+      "code": "0004410",
+      "name": "AB-ZOLE 400MG/10ML",
+      "dci": "ALBENDAZOLE",
+      "form": "Suspension buvable",
+      "public_price_xof": 860,
+      "reimbursement_base_xof": 407,
+      "type": "Générique",
+      "status": "Remboursable"
+    },
+    {
+      "code": "0000667",
+      "name": "ACARILBIAL",
+      "dci": "BENZOATE DE BENZYLE",
+      "form": "Solution",
+      "public_price_xof": 2390,
+      "reimbursement_base_xof": 2390,
+      "type": "Générique",
+      "status": "Remboursable"
+    },
+    {
+      "code": "0004669",
+      "name": "ACCOFIL 30MU",
+      "dci": "FILGRASTIM",
+      "form": "Solution pour perfusion",
+      "public_price_xof": 39950,
+      "reimbursement_base_xof": 31900,
+      "type": "Générique",
+      "status": "TPC"
+    },
+    {
+      "code": "0002038",
+      "name": "ACCUZON 1000",
+      "dci": "CEFTRIAXONE",
+      "form": "Poudre pour suspension injectable",
+      "public_price_xof": 2035,
+      "reimbursement_base_xof": 1034,
+      "type": "Générique",
+      "status": "Remboursable"
+    },
+    {
+      "code": "0002120",
+      "name": "ACCUZON 250",
+      "dci": "CEFTRIAXONE",
+      "form": "Poudre pour suspension injectable",
+      "public_price_xof": 825,
+      "reimbursement_base_xof": 825,
+      "type": "Générique",
+      "status": "Remboursable"
+    },
+    {
+      "code": "0003723",
+      "name": "ACEFLAMEX 100",
+      "dci": "ACECLOFENAC",
+      "form": "Comprimé sec",
+      "public_price_xof": 2295,
+      "reimbursement_base_xof": 2024,
+      "type": "Générique",
+      "status": "Remboursable"
+    },
+    {
+      "code": "0003348",
+      "name": "ACENLAND 100",
+      "dci": "ACECLOFENAC",
+      "form": "Comprimé sec",
+      "public_price_xof": 1310,
+      "reimbursement_base_xof": 1012,
+      "type": "Générique",
+      "status": "Remboursable"
+    },
+    {
+      "code": "C000003",
+      "name": "ACETYLSALCYLATE DE LYSINE 500",
+      "dci": "ACETYL SALICYLATE DE DL-LYSINE",
+      "form": "Poudre pour solution injectable",
+      "public_price_xof": 500,
+      "reimbursement_base_xof": 500,
+      "type": "",
+      "status": "Remboursable"
+    },
+    {
+      "code": "C000006",
+      "name": "ACETYLSALICYLATE DE LYSINE 1000",
+      "dci": "ACETYL SALICYLATE DE DL-LYSINE",
+      "form": "Poudre pour solution injectable",
+      "public_price_xof": 600,
+      "reimbursement_base_xof": 600,
+      "type": "",
+      "status": "Remboursable"
+    },
+    {
+      "code": "0004716",
+      "name": "ACFAMOL 40",
+      "dci": "METHYLPREDNISOLONE",
+      "form": "Suspension injectable",
+      "public_price_xof": 1380,
+      "reimbursement_base_xof": 1380,
+      "type": "Générique",
+      "status": "Remboursable"
+    },
+    {
+      "code": "0000340",
+      "name": "ACFOL 5MG",
+      "dci": "ACIDE FOLIQUE",
+      "form": "Comprimé dispersible",
+      "public_price_xof": 1700,
+      "reimbursement_base_xof": 413,
+      "type": "Générique",
+      "status": "Remboursable"
+    },
+    {
+      "code": "C000010",
+      "name": "ACIDE ACETYLSALICYLIQUE 500",
+      "dci": "ACIDE ACETYLSALICYLIQUE",
+      "form": "Comprimé",
+      "public_price_xof": 110,
+      "reimbursement_base_xof": 110,
+      "type": "",
+      "status": "Remboursable"
+    },
+    {
+      "code": "C000015",
+      "name": "ACIDE ASCORBIQUE SOL INJ",
+      "dci": "ACIDE ASCORBIQUE",
+      "form": "Solution injectable",
+      "public_price_xof": 100,
+      "reimbursement_base_xof": 100,
+      "type": "",
+      "status": "Remboursable"
+    },
+    {
+      "code": "C000130",
+      "name": "ACIDE BENZOIQUE 6% + ACIDE SALICYLIQUE 3%",
+      "dci": "ACIDE BENZOIQUE + ACIDE SALICYLIQUE",
+      "form": "Pommade",
+      "public_price_xof": 2415,
+      "reimbursement_base_xof": 2415,
+      "type": "",
+      "status": "Remboursable"
+    },
+    {
+      "code": "C000020",
+      "name": "ACIDE FOLIQUE 5MG/COMP BLISTER/10",
+      "dci": "ACIDE FOLIQUE",
+      "form": "Comprimé sec",
+      "public_price_xof": 60,
+      "reimbursement_base_xof": 55,
+      "type": "",
+      "status": "Remboursable"
+    },
+    {
+      "code": "0002539",
+      "name": "ACIDE FOLIQUE GGIA",
+      "dci": "ACIDE FOLIQUE",
+      "form": "Comprimé sec",
+      "public_price_xof": 550,
+      "reimbursement_base_xof": 330,
+      "type": "Générique",
+      "status": "Remboursable"
+    },
+    {
+      "code": "0003303",
+      "name": "ACIDE FOLIQUE TM 5MG",
+      "dci": "ACIDE FOLIQUE",
+      "form": "Comprimé sec",
+      "public_price_xof": 590,
+      "reimbursement_base_xof": 590,
+      "type": "Générique",
+      "status": "Remboursable"
+    },
+    {
+      "code": "0004849",
+      "name": "ACIDE FUSIDIQUE UBI 2%",
+      "dci": "ACIDE FUSIDIQUE",
+      "form": "Crème",
+      "public_price_xof": 1250,
+      "reimbursement_base_xof": 1250,
+      "type": "Générique",
+      "status": "Remboursable"
+    },
+    {
+      "code": "0004586",
+      "name": "ACILOC 50MG/2ML",
+      "dci": "RANITIDINE",
+      "form": "Solution injectable",
+      "public_price_xof": 715,
+      "reimbursement_base_xof": 715,
+      "type": "Générique",
+      "status": "Remboursable"
+    }
+  ]
+}
