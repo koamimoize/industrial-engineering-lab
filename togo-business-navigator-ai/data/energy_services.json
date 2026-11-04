@@ -1,0 +1,89 @@
+{
+  "schema_version": "0.1",
+  "product": "Togo Business Navigator AI",
+  "sector": "energy",
+  "audience": "togolese_diaspora",
+  "last_reviewed": "2026-11-04",
+  "records": [
+    {
+      "id": "TG-ENERGY-CIZO-HOUSEHOLD",
+      "title": "Acquisition de kit solaire pour un ménage dans le cadre du programme CIZO",
+      "category": "solar_off_grid",
+      "authority": "AT2ER",
+      "official_url": "https://service-public.gouv.tg/service/678502ae63016b53410027f6/urbanisme-transport/acquisition-de-kit-solaire-pour-un-menage-dans-le-cadre-du-p",
+      "applies_to": ["individual", "rural_household", "non_electrified_area"],
+      "eligibility": [
+        "La procédure décrite vise une personne physique.",
+        "Le ménage doit être situé en zone rurale non électrifiée."
+      ],
+      "documents": [],
+      "steps": [
+        "Déposer une demande via le portail Service Public.",
+        "La demande est transmise aux opérateurs de kits solaires.",
+        "L'opérateur doit contacter le demandeur dans le délai annoncé par la fiche officielle."
+      ],
+      "fees": {
+        "application_fee": "Aucun frais de dépôt de demande indiqué",
+        "kit_price": "Variable selon l'opérateur",
+        "currency": "XOF"
+      },
+      "processing_time": "L'opérateur est censé contacter le demandeur sous 7 jours ; disponibilité et délai de fourniture à confirmer.",
+      "contact": {
+        "name": "Agence Togolaise d'Électrification Rurale et des Énergies Renouvelables (AT2ER)",
+        "address": "Tokoin Gbonvié, près de l'ATBEF, Lomé",
+        "phones": ["+228 22 21 21 44", "+228 22 21 21 66"],
+        "email": "projet_cizo@at2er.tg",
+        "website": "https://at2er.tg/"
+      },
+      "verification_status": "verified_from_user_supplied_page",
+      "last_checked": "2026-11-04",
+      "limitations": [
+        "Ne pas présenter le kit comme gratuit : seul le dépôt de la demande est indiqué sans frais.",
+        "Ne pas appliquer cette procédure à une entreprise ou à un ménage urbain sans confirmation officielle."
+      ]
+    },
+    {
+      "id": "TG-ENERGY-MV-CONNECTION",
+      "title": "Demande de branchement ou de raccordement au réseau électrique moyenne tension",
+      "category": "grid_connection_medium_voltage",
+      "authority": "CEET / administration compétente indiquée par la procédure",
+      "official_url": "https://service-public.gouv.tg/service/693877abf4c5f0a07b7e02a5/urbanisme-transport/demande-de-branchement-ou-de-raccordement-au-reseau-electriq",
+      "applies_to": ["commercial_project", "industrial_project", "large_electrical_load"],
+      "eligibility": [],
+      "documents": [],
+      "steps": [],
+      "fees": {
+        "amount": null,
+        "currency": "XOF",
+        "note": "À relever dans la fiche détaillée et à confirmer auprès de la CEET."
+      },
+      "processing_time": null,
+      "contact": null,
+      "verification_status": "needs_verification",
+      "last_checked": "2026-11-04",
+      "limitations": [
+        "Ne pas conclure qu'un projet a besoin de moyenne tension sans connaître sa puissance et l'avis du distributeur.",
+        "Documents, frais et délais détaillés à vérifier."
+      ]
+    },
+    {
+      "id": "TG-ENERGY-CEET-COMPLAINT",
+      "title": "Demande de réclamation ou d'intervention à la CEET",
+      "category": "electricity_service_issue",
+      "authority": "CEET",
+      "official_url": "https://service-public.gouv.tg/service/693880a8f4c5f0a07b820ce3/securite-surete/demande-de-reclamation-ou-d-intervention-a-la-ceet",
+      "applies_to": ["electricity_customer", "business", "industrial_site"],
+      "eligibility": [],
+      "documents": [],
+      "steps": [],
+      "fees": null,
+      "processing_time": null,
+      "contact": null,
+      "verification_status": "needs_verification",
+      "last_checked": "2026-11-04",
+      "limitations": [
+        "La fiche de procédure détaillée doit être consultée pour connaître les conditions et pièces exigées."
+      ]
+    }
+  ]
+}
