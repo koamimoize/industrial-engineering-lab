@@ -87,7 +87,7 @@ function renderRecommendation(matches, region, type) {
   }).slice(0,3);
   target.innerHTML = '<b>Candidats à contacter dans ' + escapeHtml(region) + ' :</b><ol>' +
     sorted.map(p => '<li><b>' + escapeHtml(p.name) + '</b> — ' + escapeHtml(p.type) + ', ' + escapeHtml(p.prefecture) + '</li>').join("") +
-    '</ol><p class="small muted">Sélection fondée sur la région et la catégorie administrative. Ce classement technique ne signifie pas « meilleur hôpital ». Appelle chaque centre pour confirmer le service recherché, l'adresse, la convention AMU-TNS et la disponibilité.</p>';
+    '</ol><p class="small muted">Sélection fondée sur la région et la catégorie administrative. Ce classement technique ne signifie pas « meilleur hôpital ». Appelle chaque centre pour confirmer le service recherché, l’adresse, la convention AMU-TNS et la disponibilité.</p>';
 }
 
 function renderCatalogue() {
