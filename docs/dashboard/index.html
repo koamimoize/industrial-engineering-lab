@@ -161,6 +161,20 @@ body{background:radial-gradient(ellipse at 49% 32%,rgba(48,112,190,.25),transpar
     <p class="hint" id="partnerStatus">Fiches japonaises — coordonnées directes non fournies dans le document.</p>
   </section>
 
+  <div class="section-head" id="rebuild-ukraine"><div><h3>ReBuild Ukraine 2026 · Italy–Togo leads</h3><p>Entreprises italiennes repérées sur la plateforme de matchmaking. Pistes à qualifier — aucun partenariat ni intérêt pour le Togo n'est présumé.</p></div><span class="pill" id="rebuildCount">Chargement…</span></div>
+  <section class="panel">
+    <div class="grid" style="margin-bottom:16px">
+      <article class="metric"><div class="label">Entreprises enregistrées</div><div class="value" id="ruTotal">—</div><div class="note">Extrait visible fourni (liste partielle)</div></article>
+      <article class="metric"><div class="label">Priorité A</div><div class="value" id="ruPriorityA">—</div><div class="note">À qualifier en premier</div></article>
+      <article class="metric"><div class="label">Priorité B</div><div class="value" id="ruPriorityB">—</div><div class="note">À examiner ensuite</div></article>
+      <article class="metric"><div class="label">Contacts avancés</div><div class="value" id="ruAdvanced">0</div><div class="note">Selon ton suivi local</div></article>
+    </div>
+    <div class="toolbar"><input id="ruSearch" type="search" placeholder="Rechercher une entreprise, un contact, un secteur…"><select id="ruPriority"><option value="">Toutes les priorités</option><option value="A">Priorité A</option><option value="B">Priorité B</option><option value="C">Priorité C</option></select><select id="ruStatus"><option value="">Tous les statuts</option><option value="NEW">À qualifier</option><option value="PROFILE_REVIEWED">Profil examiné</option><option value="MEETING_REQUESTED">Demande de rendez-vous</option><option value="MEETING_BOOKED">Rendez-vous fixé</option><option value="CONTACTED">Contactée</option><option value="REPLIED">Réponse reçue</option><option value="QUALIFIED">Qualifiée</option><option value="PARTNERSHIP_DISCUSSION">Discussion partenariat</option><option value="SUPPLIER_SHORTLIST">Fournisseur présélectionné</option><option value="NOT_A_FIT">Hors cible</option></select></div>
+    <div class="table-wrap"><table><thead><tr><th>Entreprise / ville</th><th>Contact</th><th>Rôle potentiel</th><th>Priorité</th><th>Prochaine action</th><th>Suivi</th></tr></thead><tbody id="rebuildRows"><tr><td colspan="6" class="empty">Chargement des entreprises…</td></tr></tbody></table></div>
+    <p class="hint" id="rebuildStatus">Lecture du registre CSV…</p>
+    <div class="notice"><strong>Important :</strong> cette liste contient uniquement les 38 profils visibles dans l'extrait transmis, pas les 68 participants italiens au complet. Les priorités sont des hypothèses de travail. Vérifie les produits, services, coordonnées et l'intérêt pour l'Afrique de l'Ouest avant toute prospection. Les statuts sont sauvegardés dans le navigateur utilisé (localement), pas dans GitHub.</div>
+  </section>
+
   <div class="section-head" id="energy"><div><h3>Energy Intelligence</h3><p>Module en préparation — suivi des consommations, actifs énergétiques et coûts.</p></div></div>
   <section class="panel"><p class="hint">Prochaine évolution : registre des équipements, relevés de consommation, indicateurs kWh/unité produite et alertes de dérive.</p></section>
   <div class="section-head" id="legal"><div><h3>Legal & Property · Togo</h3><p>Ressource officielle pour trouver un avocat et préparer les démarches juridiques liées à tes projets et à ton patrimoine au Togo.</p></div><span class="pill">Ressource officielle</span></div>
@@ -245,6 +259,48 @@ async function loadNetworking(){
 }
 
 loadNetworking();
+
+// ReBuild Ukraine lead register — local browser follow-up
+const ruStatusLabels={NEW:'À qualifier',PROFILE_REVIEWED:'Profil examiné',MEETING_REQUESTED:'Demande de rendez-vous',MEETING_BOOKED:'Rendez-vous fixé',CONTACTED:'Contactée',REPLIED:'Réponse reçue',QUALIFIED:'Qualifiée',PARTNERSHIP_DISCUSSION:'Discussion partenariat',SUPPLIER_SHORTLIST:'Fournisseur présélectionné',NOT_A_FIT:'Hors cible'};
+let rebuildLeads=[];
+const ruStoreKey='iel_rebuild_ukraine_2026_status_v1';
+function ruGetStatuses(){try{return JSON.parse(localStorage.getItem(ruStoreKey)||'{}')}catch(e){return {}}}
+function ruSaveStatuses(v){try{localStorage.setItem(ruStoreKey,JSON.stringify(v))}catch(e){}}
+function ruRender(){
+ const q=document.getElementById('ruSearch').value.toLocaleLowerCase('fr'),p=document.getElementById('ruPriority').value,s=document.getElementById('ruStatus').value,st=ruGetStatuses();
+ const filtered=rebuildLeads.filter(x=>(!p||x.priority===p)&&(!s||(st[x.lead_id]||x.status||'NEW')===s)&&[x.company,x.city_country,x.contact_name,x.contact_role,x.lead_classification,x.fit_for_industrial_engineering_lab,x.proposed_next_action].join(' ').toLocaleLowerCase('fr').includes(q));
+ const body=document.getElementById('rebuildRows');body.innerHTML='';
+ if(!filtered.length){body.innerHTML='<tr><td colspan="6" class="empty">Aucun résultat.</td></tr>'}
+ filtered.forEach(x=>{
+  const tr=document.createElement('tr');
+  const add=(v)=>{const td=document.createElement('td');td.textContent=v||'—';tr.appendChild(td)};
+  const company=document.createElement('td');company.textContent=x.company||'—';const small=document.createElement('small');small.textContent=x.city_country||'';company.appendChild(small);tr.appendChild(company);
+  const contact=document.createElement('td');contact.textContent=x.contact_name||'—';const role=document.createElement('small');role.textContent=x.contact_role||'';contact.appendChild(role);tr.appendChild(contact);
+  add(x.lead_classification);
+  const pr=document.createElement('td');pr.textContent=x.priority||'—';pr.className='priority';tr.appendChild(pr);
+  add(x.proposed_next_action);
+  const td=document.createElement('td'),sel=document.createElement('select');sel.setAttribute('aria-label','Statut de '+x.company);sel.style.cssText='max-width:155px;background:#0b1422;border:1px solid var(--line);color:var(--ink);border-radius:8px;padding:7px;font:inherit;font-size:10px';
+  Object.entries(ruStatusLabels).forEach(([v,label])=>{const o=document.createElement('option');o.value=v;o.textContent=label;sel.appendChild(o)});
+  sel.value=st[x.lead_id]||x.status||'NEW';sel.addEventListener('change',()=>{const all=ruGetStatuses();all[x.lead_id]=sel.value;ruSaveStatuses(all);ruUpdateAdvanced()});td.appendChild(sel);tr.appendChild(td);body.appendChild(tr);
+ });
+ document.getElementById('rebuildStatus').textContent=filtered.length+' entreprise(s) affichée(s) sur '+rebuildLeads.length+'. Les changements de statut sont conservés dans ce navigateur.';
+}
+function ruUpdateAdvanced(){const st=ruGetStatuses(),n=Object.values(st).filter(v=>['MEETING_REQUESTED','MEETING_BOOKED','CONTACTED','REPLIED','QUALIFIED','PARTNERSHIP_DISCUSSION','SUPPLIER_SHORTLIST'].includes(v)).length;document.getElementById('ruAdvanced').textContent=n}
+async function loadRebuildLeads(){
+ const status=document.getElementById('rebuildStatus');
+ try{
+  const res=await fetch('../research/rebuild-ukraine-2026-participants.csv');if(!res.ok)throw new Error('CSV indisponible ('+res.status+')');
+  rebuildLeads=parseCSV(await res.text());
+  document.getElementById('ruTotal').textContent=rebuildLeads.length;
+  document.getElementById('ruPriorityA').textContent=rebuildLeads.filter(x=>x.priority==='A').length;
+  document.getElementById('ruPriorityB').textContent=rebuildLeads.filter(x=>x.priority==='B').length;
+  document.getElementById('rebuildCount').textContent=rebuildLeads.length+' fiches · extrait partiel';
+  ruUpdateAdvanced();ruRender();
+ }catch(e){status.textContent='Registre non chargé : '+e.message;status.classList.add('error')}
+}
+['ruSearch','ruPriority','ruStatus'].forEach(id=>document.getElementById(id).addEventListener(id==='ruSearch'?'input':'change',ruRender));
+loadRebuildLeads();
+
 </script>
 </body>
 </html>
