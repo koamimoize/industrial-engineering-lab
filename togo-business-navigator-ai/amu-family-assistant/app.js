@@ -63,6 +63,32 @@ function renderProviders() {
 }
 ["provider-search","region-filter","type-filter"].forEach(id => $(id).addEventListener(id === "provider-search" ? "input" : "change", renderProviders));
 
+function renderRecommendation(matches, region, type) {
+  const target = $("recommendation-content");
+  if (!region) {
+    target.textContent = "Sélectionne d'abord la région où la personne souhaite recevoir les soins.";
+    return;
+  }
+  if (!matches.length) {
+    target.textContent = "Aucun prestataire de cette sélection dans les extraits chargés. Consulte le référentiel complet ou élargis les filtres.";
+    return;
+  }
+  const sorted = [...matches].sort((a,b) => {
+    const rank = (p) => {
+      const t = p.type.toLowerCase();
+      if (type) return t === type.toLowerCase() ? 3 : 0;
+      if (/urgence|chu|chr|hôpital/.test(t)) return 3;
+      if (/usp|cms|cabinet|infirmerie/.test(t)) return 2;
+      if (/pharmacie|laboratoire/.test(t)) return 1;
+      return 0;
+    };
+    return rank(b)-rank(a) || a.name.localeCompare(b.name,"fr");
+  }).slice(0,3);
+  target.innerHTML = '<b>Candidats à contacter dans ' + escapeHtml(region) + ' :</b><ol>' +
+    sorted.map(p => '<li><b>' + escapeHtml(p.name) + '</b> — ' + escapeHtml(p.type) + ', ' + escapeHtml(p.prefecture) + '</li>').join("") +
+    '</ol><p class="small muted">Sélection fondée sur la région et la catégorie administrative. Ce classement technique ne signifie pas « meilleur hôpital ». Appelle chaque centre pour confirmer le service recherché, l'adresse, la convention AMU-TNS et la disponibilité.</p>';
+}
+
 function renderCatalogue() {
   if (!db) return;
   const isActs = activeCatalog === "acts";
