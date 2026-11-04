@@ -7,6 +7,7 @@ Interface web responsive intégrée à Togo Business Navigator AI pour aider un 
 - rechercher un prestataire dans les extraits chargés ;
 - consulter les actes et produits transcrits ;
 - effectuer une estimation arithmétique sur une base de remboursement et un taux confirmés ;
+- générer une shortlist explicable de prestataires selon la région et le type de structure sélectionnés.
 - préparer les questions à poser au prestataire et à la CNSS.
 
 ## Fichiers
@@ -44,7 +45,7 @@ Ils ne sont pas le catalogue complet : les pages transmises indiquaient 1 689 ac
 - Le taux de 90 % est limité à la grille de séjour affichée dans les extraits. Le taux de 80 % ne doit être utilisé que lorsqu'il est applicable et confirmé.
 - Les tarifs de séjour sont reproduits tels qu'affichés. L'unité exacte et l'application par tranche restent à confirmer dans le simulateur officiel.
 - Le calculateur exige que l'utilisateur saisisse une base totale de remboursement connue. Il ne reconstitue pas automatiquement la liquidation CNSS.
-- Le moteur d'orientation maison est un ensemble de règles prudentes, pas un modèle médical ni une IA clinique.
+- Les suggestions de prestataires et le moteur d'orientation maison sont des règles déterministes explicables. Il ne s'agit pas encore d'un modèle génératif connecté ni d'une IA clinique.
 - Aucun diagnostic, prescription, classement clinique des établissements ou garantie de remboursement n'est fourni.
 - En présence de signes d'urgence, l'utilisateur doit obtenir immédiatement une aide médicale et ne pas attendre l'outil.
 - Ne stocke aucune donnée personnelle dans cette version.
