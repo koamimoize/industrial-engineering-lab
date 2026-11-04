@@ -1,0 +1,95 @@
+{
+  "schema_version": "1.0",
+  "updated_at": "2026-11-04",
+  "description": "Fiches des partenaires internationaux japonais et intérêts exprimés dans les documents fournis.",
+  "partners": [
+    {
+      "id": "JP-001",
+      "name": "Nippon Yusen Kabushiki Kaisha (NYK Line)",
+      "sector": "Transport maritime et logistique",
+      "contact": "Shimizu Kentaro",
+      "interest": "Chaîne du froid en Afrique de l’Ouest",
+      "matching": "AGL; LCT; PAL; MAERSK; MSC; R-LOGISTIC; ATLOG; LCA MASTER CARGO"
+    },
+    {
+      "id": "JP-002",
+      "name": "Mitsui & Co., Ltd.",
+      "sector": "Commerce et négoce",
+      "contact": "Nwamba Emily",
+      "interest": "Comprendre les circuits logistiques au Togo; partenariats commerciaux",
+      "matching": "PAL; AGL; LCT; ATLOG; API-ZF; PIA; CCIT"
+    },
+    {
+      "id": "JP-003",
+      "name": "TOPPAN Africa Ltd.",
+      "sector": "Commerce et négoce",
+      "contact": "Kaneuchi Daisuke",
+      "interest": "Solutions numériques pour la logistique et la gestion des entrepôts",
+      "matching": "MAONO; TRANKYL; Tech Com; Give Smile Solutions; UMBAJI; AGL; LCT"
+    },
+    {
+      "id": "JP-004",
+      "name": "Rubicon SEZC",
+      "sector": "Édition, imprimerie et secteurs connexes",
+      "contact": "Nakabayashi Jun",
+      "interest": "Secteur douanier et contrôle aux frontières",
+      "matching": "PAL; AGL; LCT; LCA MASTER CARGO; R-LOGISTIC; XP LOGISTICS; AUDACE DATALOG"
+    },
+    {
+      "id": "JP-005",
+      "name": "Sumitomo Corporation",
+      "sector": "Commerce et négoce",
+      "contact": "Ueda Shigeru",
+      "interest": "Compréhension du marché togolais",
+      "matching": "API-ZF; PIA; CCIT; AGET; SNPT; STM; Steel Cube Togo; EGETRACO"
+    },
+    {
+      "id": "JP-006",
+      "name": "Marubeni Corporation",
+      "sector": "Investissement et commerce",
+      "contact": "Yasukawa Satoko",
+      "interest": "Conditions logistiques de la côte togolaise",
+      "matching": "PAL; AGL; LCT; R-LOGISTIC; API-ZF; GLOBAL INNOVAPOWER; EGETRACO"
+    },
+    {
+      "id": "JP-007",
+      "name": "K Line Shipping South Africa PTY LTD.",
+      "sector": "Transport, entreposage et services connexes",
+      "contact": "Umeda Yohei",
+      "interest": "Rôle du Togo comme pôle maritime pour l’Afrique de l’Ouest",
+      "matching": "LCT; AGL; MAERSK; MSC; R-LOGISTIC; ATLOG; NAKA; LCA MASTER CARGO"
+    },
+    {
+      "id": "JP-008",
+      "name": "NANAMI Shipping B.V.",
+      "sector": "Transport, entreposage et services connexes",
+      "contact": "Kimoto Takaasa",
+      "interest": "Rôle du Togo comme pôle maritime pour l’Afrique de l’Ouest",
+      "matching": "AGL; MAERSK; MSC; PAL; ATLOG; LCT; XP LOGISTICS"
+    },
+    {
+      "id": "JP-009",
+      "name": "Japan International Cooperation Agency (JICA)",
+      "sector": "Coopération / secteur public",
+      "contact": "Shibata Kazunao",
+      "interest": "Comparaison entre les ports de Lomé et de Cotonou",
+      "matching": "PAL; API-ZF; PIA; AGL; LCT; ATLOG; CCIT"
+    },
+    {
+      "id": "JP-010",
+      "name": "Japan Bank for International Cooperation (JBIC)",
+      "sector": "Finance / secteur public",
+      "contact": "Uchino (Miwa) Mika",
+      "interest": "Secteurs togolais propices à l’implantation d’entreprises japonaises",
+      "matching": "API-ZF; PIA; CCIT; AGET; ASOZOF; SNPT; STM; GLOBAL INNOVAPOWER"
+    },
+    {
+      "id": "JP-011",
+      "name": "Nippon Export and Investment Insurance (NEXI)",
+      "sector": "Assurance",
+      "contact": "Kimura Takuya",
+      "interest": "Risques export/investissement et infrastructures logistiques locales",
+      "matching": "VPARTENERS; CCIT; ATLOG; AUDACE DATALOG; R-LOGISTIC; ASOZOF; PAL"
+    }
+  ]
+}
