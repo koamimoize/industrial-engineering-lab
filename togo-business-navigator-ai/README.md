@@ -41,3 +41,11 @@ Les liens sont des références. Ils ne constituent pas une intégration techniq
 
 ## Démarrage
 Lire `docs/architecture.md`, puis `data/energy_services.json`, `prompts/assistant_system_prompt.md` et `docs/amu-family-assistant.md`.
+
+### Togo–Japan Network (Industrial OS)
+Dossier: `data/japan_togo_mission_2026.json`
+Documentation: `docs/togo-japan-network.md`
+
+- 12 Japanese organizations and 75 Togolese organization entries transcribed from the API-ZF networking sheet dated 17 July 2026.
+- Includes stated interests, proposed networking links, sectors and published contact details where supplied.
+- The source is a networking schedule, not proof of meetings, contracts or partnerships. Contact details and company status require verification.
