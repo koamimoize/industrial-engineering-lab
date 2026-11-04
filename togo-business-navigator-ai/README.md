@@ -5,20 +5,7 @@
 Assistant d'orientation qui transforme la description d'un projet énergétique au Togo en parcours administratif structuré, sourcé et vérifiable.
 
 ## Public cible
-Membres de la diaspora togolaise qui souhaitent préparer un projet énergétique au Togo depuis l'étranger.
-
-## Problème
-Les informations administratives sont dispersées. Le porteur de projet doit identifier les administrations, comprendre les conditions, rassembler les documents et ordonner les démarches.
-
-## Promesse du MVP
-À partir d'une description simple du projet, proposer :
-1. les démarches potentiellement pertinentes ;
-2. les conditions et pièces à vérifier ;
-3. l'administration compétente et ses coordonnées lorsqu'elles sont publiées ;
-4. les liens officiels ;
-5. les questions encore nécessaires pour confirmer le parcours.
-
-Le MVP **n'effectue aucune démarche à la place de l'utilisateur** et ne garantit ni autorisation, ni raccordement, ni financement.
+Membres de la diaspora togolaise qui souhaitent préparer un projet au Togo depuis l'étranger.
 
 ## Périmètre initial
 - Projet solaire résidentiel ou hors réseau ;
@@ -27,24 +14,30 @@ Le MVP **n'effectue aucune démarche à la place de l'utilisateur** et ne garant
 - Réclamation/intervention liée à la CEET ;
 - Orientation vers les interlocuteurs officiels.
 
-## Structure
-- `data/` : fiches de services et sources structurées.
-- `docs/` : architecture, règles de fiabilité et feuille de route.
-- `prompts/` : instructions du moteur IA.
-- `examples/` : scénarios de test.
+## Modules
+- **Energy Navigator** : procédures et services du secteur énergie.
+- **AMU Family Assistant** : assistant familial AMU-TNS pour préparer les soins à domicile et à l'hôpital, rechercher des prestataires, consulter les extraits de référentiels et estimer un reste à charge.
 
-## Statuts de fiabilité
-- `verified_from_user_supplied_page` : informations transcrites depuis une page officielle fournie dans le projet ; à recontrôler avant mise en production.
-- `needs_verification` : information incomplète ou procédure à confirmer.
-- `not_applicable` : procédure non adaptée au profil décrit.
+### AMU Family Assistant
+Dossier : `amu-family-assistant/`
 
-## Principe fondamental
+- Interface web responsive : `amu-family-assistant/index.html`
+- Données initiales : `amu-family-assistant/data/amu_tns_seed.json`
+- Logique d'orientation et calculs : `amu-family-assistant/app.js`
+- Documentation : `docs/amu-family-assistant.md`
+
+Pour le lancement, lire `docs/amu-family-assistant.md`. Le prototype doit être servi en HTTP(S), par exemple avec `python -m http.server 8000` depuis le dossier de l'application.
+
+## Fiabilité et limites
+Le MVP **n'effectue aucune démarche à la place de l'utilisateur** et ne garantit ni autorisation, ni financement, ni remboursement. Les données AMU sont des extraits fournis par l'utilisateur, pas les catalogues complets de la CNSS. La présence d'un prestataire dans les extraits ne confirme pas sa convention active. Le module santé ne pose pas de diagnostic et ne remplace pas un professionnel de santé.
+
 Chaque réponse doit distinguer :
-- obligation confirmée par une source ;
+- obligation ou information confirmée par une source ;
 - démarche potentiellement nécessaire ;
-- question à poser à l'administration.
+- question à poser à l'administration ;
+- estimation illustrative et ses hypothèses.
 
 Les liens sont des références. Ils ne constituent pas une intégration technique avec les administrations.
 
 ## Démarrage
-Lire `docs/architecture.md`, puis `data/energy_services.json` et `prompts/assistant_system_prompt.md`.
+Lire `docs/architecture.md`, puis `data/energy_services.json`, `prompts/assistant_system_prompt.md` et `docs/amu-family-assistant.md`.
