@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>IEL · Traceability Engine</title>
+<style>
+:root{--bg:#f3f5f7;--paper:#fff;--ink:#17212b;--muted:#657382;--line:#e4e9ee;--blue:#2857d6;--red:#b42318;--amber:#945800;--green:#18794e}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.5 Inter,system-ui,-apple-system,Segoe UI,sans-serif}
+header{background:#111c2b;color:white;padding:25px max(20px,calc((100vw - 1250px)/2));display:flex;justify-content:space-between;align-items:center;gap:20px}h1{font-size:23px;margin:0}header p{margin:4px 0 0;color:#b9c6d5}.flag{border:1px solid #667487;border-radius:99px;padding:6px 11px;font-size:11px;white-space:nowrap}
+main{max-width:1250px;margin:auto;padding:24px 20px 50px}.notice{background:#fff8e8;border:1px solid #f1d59a;border-radius:10px;padding:12px 14px;color:#684400;margin-bottom:20px}
+.head{display:flex;justify-content:space-between;align-items:end;gap:15px;margin:20px 0 12px}.head h2{font-size:16px;margin:0}.muted,.foot{color:var(--muted);font-size:11px}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.card,.panel{background:var(--paper);border:1px solid var(--line);border-radius:12px}.card{padding:16px}.value{font-size:28px;font-weight:750;letter-spacing:-1px}.label{font-size:12px;color:var(--muted)}
+.columns{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}.panel{padding:16px;min-width:0}.panel h3{font-size:14px;margin:0 0 12px}
+.bars{display:grid;gap:12px}.bar{display:grid;grid-template-columns:155px 1fr 24px;gap:9px;align-items:center;font-size:12px}.track{height:8px;background:#edf1f5;border-radius:10px;overflow:hidden}.fill{height:100%;background:var(--blue);border-radius:10px}
+.controls{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}.controls input,.controls select,button{border:1px solid var(--line);border-radius:8px;padding:9px 11px;background:white;color:var(--ink);font:inherit}.controls input{min-width:240px}button{font-weight:650;cursor:pointer}.primary{background:var(--blue);border-color:var(--blue);color:white}
+.tablebox{overflow:auto;background:white;border:1px solid var(--line);border-radius:10px}table{width:100%;border-collapse:collapse;min-width:850px}th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);font-size:12px;white-space:nowrap}th{background:#f8fafc;color:var(--muted);position:sticky;top:0}tr:last-child td{border:0}.mono{font-family:ui-monospace,monospace;color:#425269}
+.tag{display:inline-block;border-radius:99px;padding:3px 8px;font-size:10px;font-weight:750}.critical{background:#fee4e2;color:#912018}.warning{background:#fff0d6;color:#854d0e}.good{background:#e5f5ec;color:#17633f}
+.logitem,.test{padding:9px 0;border-bottom:1px solid var(--line);font-size:12px}.logitem:last-child,.test:last-child{border:0}.logitem small{display:block;color:var(--muted);margin-top:3px}.test{display:flex;justify-content:space-between;gap:12px}.pass{color:var(--green);font-weight:750}.fail{color:var(--red);font-weight:750}
+.foot{margin-top:18px}@media(max-width:850px){.grid{grid-template-columns:repeat(2,1fr)}.columns{grid-template-columns:1fr}}@media(max-width:520px){header{align-items:flex-start;flex-direction:column}.bar{grid-template-columns:110px 1fr 20px}.value{font-size:24px}}
+</style></head><body>
+<header><div><h1>IEL / Traceability Engine</h1><p>Operational reconciliation · Challenge 002 · v0.1</p></div><span class="flag">SIMULATION · DONNÉES FICTIVES</span></header>
+<main>
+<div class="notice"><b>Important :</b> tous les événements, lots, documents, stocks et quantités sont synthétiques. Ils servent à tester les règles du moteur et ne représentent aucune entreprise ni preuve opérationnelle réelle.</div>
+<div class="head"><div><h2>Vue opérationnelle</h2><div class="muted">Flux simulé : réception → stockage → production → expédition</div></div><span class="muted" id="stamp"></span></div>
+<section class="grid">
+<div class="card"><div class="value" id="eventsCount">—</div><div class="label">Événements analysés</div></div>
+<div class="card"><div class="value" id="alertsCount">—</div><div class="label">Anomalies détectées</div></div>
+<div class="card"><div class="value" id="criticalCount">—</div><div class="label">Anomalies critiques</div></div>
+<div class="card"><div class="value" id="integrity">—</div><div class="label">Événements sans alerte</div></div>
+</section>
+<section class="columns">
+<div class="panel"><h3>Anomalies par règle</h3><div class="bars" id="ruleBars"></div></div>
+<div class="panel"><h3>Volume d'événements par étape</h3><div class="bars" id="stageBars"></div><p class="muted">Une alerte signale une incohérence dans les données. Elle ne prouve pas une perte physique ou une fraude.</p></div>
+</section>
+<div class="head"><div><h2>Registre des événements</h2><div class="muted">Recherche, filtres et export des données de test</div></div></div>
+<div class="controls"><input id="query" placeholder="Rechercher lot, document, article…"><select id="filter"><option value="all">Toutes les lignes</option><option value="critical">Alertes critiques</option><option value="warning">Alertes à vérifier</option><option value="clean">Sans alerte</option></select><button class="primary" id="csv">Exporter CSV</button><button id="clear">Réinitialiser</button></div>
+<div class="tablebox"><table><thead><tr><th>Date</th><th>Event ID</th><th>Type</th><th>SKU</th><th>Lot</th><th>Qté</th><th>Origine → destination</th><th>Document</th><th>Contrôle</th></tr></thead><tbody id="rows"></tbody></table></div>
+<section class="columns">
+<div class="panel"><h3>Journal des anomalies</h3><div id="log"></div></div>
+<div class="panel"><h3>Tests de validation</h3><div id="tests"></div><p class="muted">Tests locaux sur le jeu synthétique uniquement. Ils vérifient les règles codées, pas l'exactitude d'une situation réelle.</p></div>
+</section>
+<div class="foot">IEL · Prototype statique sans serveur ni base de données · Règles déterministes v0.1 · Aucun envoi de données.</div>
+</main>
+<script>
+const events=[
+{id:"EV-001",time:"2026-10-01 08:10",type:"RECEIPT",sku:"RAW-MAIZE",lot:"MZ-2610-A",qty:500,from:"SUPPLIER",to:"RECEIVING",doc:"GRN-1001"},
+{id:"EV-002",time:"2026-10-01 09:00",type:"TRANSFER",sku:"RAW-MAIZE",lot:"MZ-2610-A",qty:500,from:"RECEIVING",to:"RAW_STORE",doc:"TR-2001"},
+{id:"EV-003",time:"2026-10-01 10:15",type:"RECEIPT",sku:"PACK-BAG",lot:"BG-2610-A",qty:200,from:"SUPPLIER",to:"PACK_STORE",doc:"GRN-1002"},
+{id:"EV-004",time:"2026-10-02 07:30",type:"ISSUE",sku:"RAW-MAIZE",lot:"MZ-2610-A",qty:120,from:"RAW_STORE",to:"LINE-01",doc:"ISS-3001"},
+{id:"EV-005",time:"2026-10-02 08:00",type:"PRODUCTION",sku:"FG-EXTRUDED",lot:"FG-2610-01",qty:95,from:"LINE-01",to:"FG_STORE",doc:"PROD-4001"},
+{id:"EV-006",time:"2026-10-02 08:05",type:"CONSUMPTION",sku:"PACK-BAG",lot:"BG-2610-A",qty:95,from:"PACK_STORE",to:"LINE-01",doc:"ISS-3002"},
+{id:"EV-007",time:"2026-10-02 14:20",type:"DISPATCH",sku:"FG-EXTRUDED",lot:"FG-2610-01",qty:60,from:"FG_STORE",to:"CUSTOMER",doc:"DN-5001"},
+{id:"EV-008",time:"2026-10-03 07:40",type:"ISSUE",sku:"RAW-MAIZE",lot:"MZ-2610-A",qty:450,from:"RAW_STORE",to:"LINE-01",doc:"ISS-3003"},
+{id:"EV-009",time:"2026-10-03 08:10",type:"PRODUCTION",sku:"FG-EXTRUDED",lot:"FG-2610-02",qty:430,from:"LINE-01",to:"FG_STORE",doc:"PROD-4002"},
+{id:"EV-010",time:"2026-10-03 08:20",type:"CONSUMPTION",sku:"PACK-BAG",lot:"BG-2610-A",qty:430,from:"PACK_STORE",to:"LINE-01",doc:"ISS-3004"},
+{id:"EV-011",time:"2026-10-03 12:00",type:"DISPATCH",sku:"FG-EXTRUDED",lot:"FG-2610-02",qty:80,from:"FG_STORE",to:"CUSTOMER",doc:"DN-5002"},
+{id:"EV-012",time:"2026-10-03 13:15",type:"TRANSFER",sku:"RAW-MAIZE",lot:"MZ-2610-A",qty:40,from:"RAW_STORE",to:"LINE-01",doc:"TR-2002"},
+{id:"EV-013",time:"2026-10-03 13:20",type:"TRANSFER",sku:"RAW-MAIZE",lot:"MZ-2610-A",qty:40,from:"RAW_STORE",to:"LINE-01",doc:"TR-2002"},
+{id:"EV-014",time:"2026-10-04 08:00",type:"RECEIPT",sku:"RAW-MAIZE",lot:"",qty:100,from:"SUPPLIER",to:"RECEIVING",doc:"GRN-1003"},
+{id:"EV-015",time:"2026-10-04 08:30",type:"TRANSFER",sku:"RAW-MAIZE",lot:"MZ-2610-B",qty:100,from:"RECEIVING",to:"RAW_STORE",doc:"TR-2003"},
+{id:"EV-016",time:"2026-10-04 09:00",type:"ISSUE",sku:"RAW-MAIZE",lot:"MZ-2610-B",qty:25,from:"RAW_STORE",to:"LINE-01",doc:"ISS-3005"},
+{id:"EV-017",time:"2026-10-04 10:00",type:"PRODUCTION",sku:"FG-EXTRUDED",lot:"FG-2610-03",qty:22,from:"LINE-01",to:"FG_STORE",doc:"PROD-4003"},
+{id:"EV-018",time:"2026-10-04 11:00",type:"DISPATCH",sku:"FG-EXTRUDED",lot:"FG-2610-99",qty:15,from:"FG_STORE",to:"CUSTOMER",doc:"DN-5003"},
+{id:"EV-019",time:"2026-10-04 14:00",type:"DISPATCH",sku:"FG-EXTRUDED",lot:"FG-2610-03",qty:10,from:"FG_STORE",to:"CUSTOMER",doc:"DN-5004"},
+{id:"EV-020",time:"2026-10-05 08:00",type:"RECEIPT",sku:"PACK-BAG",lot:"BG-2610-B",qty:50,from:"SUPPLIER",to:"PACK_STORE",doc:"GRN-1004"}
+];
+const names={DUPLICATE:"Transaction en doublon",MISSING_LOT:"Lot manquant",NEGATIVE_STOCK:"Stock négatif / sortie excessive",UNKNOWN_LOT:"Lot sans réception amont"};
+function analyze(){
+ const issues=[],seen=new Map(),received=new Set(),stock={"RAW-MAIZE|RECEIVING":0,"RAW-MAIZE|RAW_STORE":0,"PACK-BAG|PACK_STORE":100,"FG-EXTRUDED|FG_STORE":0};
+ const add=(e,code,level,detail)=>issues.push({event:e.id,code,level,detail});
+ for(const e of events){
+  const sig=[e.type,e.sku,e.lot,e.qty,e.from,e.to,e.doc].join("|");
+  if(seen.has(sig))add(e,"DUPLICATE","critical","Même transaction déjà enregistrée dans "+seen.get(sig)+".");else seen.set(sig,e.id);
+  if(!e.lot)add(e,"MISSING_LOT","warning","L'identifiant de lot est vide.");
+  if(e.type==="RECEIPT"&&e.lot)received.add(e.sku+"|"+e.lot);
+  if(e.type!=="RECEIPT"&&e.lot&&!received.has(e.sku+"|"+e.lot))add(e,"UNKNOWN_LOT","warning","Aucune réception amont de ce SKU/lot dans le jeu de test.");
+  if(e.from!=="SUPPLIER"&&e.from!=="LINE-01"&&e.from!=="CUSTOMER"){
+   const k=e.sku+"|"+e.from;stock[k]=(stock[k]||0)-e.qty;
+   if(stock[k]<0)add(e,"NEGATIVE_STOCK","critical","Solde calculé de "+stock[k]+" après cette sortie.");
+  }
+  if(e.to!=="CUSTOMER"&&e.to!=="SUPPLIER"&&e.to!=="LINE-01"){
+   const k=e.sku+"|"+e.to;stock[k]=(stock[k]||0)+e.qty;
+  }
+ }
+ return issues;
+}
+const issues=analyze(),byEvent={};issues.forEach(x=>(byEvent[x.event]??=[]).push(x));
+const uniqueFlagged=new Set(issues.map(x=>x.event));
+const $=id=>document.getElementById(id);
+function drawBars(target,items){$(target).innerHTML=items.length?items.map(([n,v])=>'<div class="bar"><span>'+n+'</span><div class="track"><div class="fill" style="width:'+Math.max(4,v/Math.max(...items.map(x=>x[1]))*100)+'%"></div></div><b>'+v+'</b></div>').join(""):'<span class="muted">Aucune alerte</span>'}
+function render(){
+ $("eventsCount").textContent=events.length;$("alertsCount").textContent=issues.length;$("criticalCount").textContent=issues.filter(x=>x.level==="critical").length;$("integrity").textContent=Math.round((events.length-uniqueFlagged.size)/events.length*100)+"%";
+ const counts={};issues.forEach(x=>counts[x.code]=(counts[x.code]||0)+1);
+ drawBars("ruleBars",Object.entries(counts).map(([k,v])=>[names[k],v]));
+ const stages=[["Réception",events.filter(x=>x.type==="RECEIPT").length],["Transfert",events.filter(x=>x.type==="TRANSFER").length],["Production / consommation",events.filter(x=>["PRODUCTION","CONSUMPTION","ISSUE"].includes(x.type)).length],["Expédition",events.filter(x=>x.type==="DISPATCH").length]];
+ drawBars("stageBars",stages);
+ $("log").innerHTML=issues.map(x=>'<div class="logitem"><b>'+x.event+'</b> · '+names[x.code]+'<small>'+x.detail+'</small><span class="tag '+x.level+'">'+(x.level==="critical"?"CRITIQUE":"À VÉRIFIER")+'</span></div>').join("")||"Aucune anomalie";
+ const checks=[
+ ["Les identifiants d'événements sont uniques",new Set(events.map(x=>x.id)).size===events.length],
+ ["Le doublon EV-013 est détecté",issues.some(x=>x.event==="EV-013"&&x.code==="DUPLICATE")],
+ ["Le lot manquant EV-014 est détecté",issues.some(x=>x.event==="EV-014"&&x.code==="MISSING_LOT")],
+ ["Le lot inconnu EV-018 est détecté",issues.some(x=>x.event==="EV-018"&&x.code==="UNKNOWN_LOT")],
+ ["La sortie excessive EV-008 est détectée",issues.some(x=>x.event==="EV-008"&&x.code==="NEGATIVE_STOCK")],
+ ["La réception normale EV-001 reste sans alerte",!issues.some(x=>x.event==="EV-001")]
+ ];
+ $("tests").innerHTML=checks.map(([label,ok])=>'<div class="test"><span>'+label+'</span><b class="'+(ok?"pass":"fail")+'">'+(ok?"PASS":"FAIL")+'</b></div>').join("");
+ filterRows();
+}
+function filterRows(){
+ const q=$("query").value.toLowerCase(),f=$("filter").value;
+ const list=events.filter(e=>{const a=byEvent[e.id]||[],match=Object.values(e).join(" ").toLowerCase().includes(q);return match&&(f==="all"||(f==="clean"&&!a.length)||(f==="critical"&&a.some(x=>x.level==="critical"))||(f==="warning"&&a.some(x=>x.level==="warning")))});
+ $("rows").innerHTML=list.map(e=>{const a=byEvent[e.id]||[],badge=a.length?'<span class="tag '+(a.some(x=>x.level==="critical")?"critical":"warning")+'">'+a.length+' alerte(s)</span>':'<span class="tag good">Conforme</span>';return '<tr><td>'+e.time+'</td><td class="mono">'+e.id+'</td><td>'+e.type+'</td><td>'+e.sku+'</td><td>'+(e.lot||"—")+'</td><td>'+e.qty+'</td><td>'+e.from+' → '+e.to+'</td><td>'+e.doc+'</td><td>'+badge+'</td></tr>'}).join("")||'<tr><td colspan="9">Aucun résultat.</td></tr>';
+}
+$("query").addEventListener("input",filterRows);$("filter").addEventListener("change",filterRows);
+$("clear").addEventListener("click",()=>{$("query").value="";$("filter").value="all";filterRows()});
+$("csv").addEventListener("click",()=>{const header=["event_id","timestamp","type","sku","lot","quantity","from","to","document","anomalies"];const data=[header,...events.map(e=>[e.id,e.time,e.type,e.sku,e.lot,e.qty,e.from,e.to,e.doc,(byEvent[e.id]||[]).map(x=>x.code).join(";")])];const csv=data.map(r=>r.map(v=>'"'+String(v??"").replaceAll('"','""')+'"').join(",")).join("\r\n");const a=document.createElement("a");a.href=URL.createObjectURL(new Blob(["\ufeff"+csv],{type:"text/csv;charset=utf-8"}));a.download="iel-traceability-synthetic-events.csv";a.click();URL.revokeObjectURL(a.href)});
+$("stamp").textContent="Analyse locale · "+new Date().toLocaleString("fr-FR");render();
+</script></body></html>
